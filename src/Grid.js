@@ -6,15 +6,15 @@ import "./styles.css";
 export default function Grid({ gen, setGen }) {
   let rowsLen = 20;
   let colsLen = 20;
-  let [generationCount, setgenerationCount] = useState(0);
-  // const[populated2dArray,setPopulated2dArray]=useState( Array.from({length: rowsLen},()=> Array.from({length: colsLen}, () => 0)))
+  let [clicked, setClicked] = useState(true);
+  const [interval, setIntervalState] = useState({ interval: +1000 });
+  const [isRunning, setisRunning] = useState(false);
+const[newTimeoutHandler,setnewTimeoutHandler]=useState(null)
+  let [clear, setClear] = useState(true);
+  let [random, setRandom] = useState(false);
   let [populated2dArray, setPopulated2dArray] = useState(
     populateClearGrid(createDoubleArr(rowsLen, colsLen))
   );
-  // let [populated2dArray, setPopulated2dArray] = useState(
-  //   populateDblArr(createDoubleArr(rowsLen, colsLen))
-  // );
-  // console.table("line11, populated2dArray",populated2dArray)
 
   /** create a 2dimensional array */
   function createDoubleArr(rowsLen, colsLen) {
@@ -22,29 +22,21 @@ export default function Grid({ gen, setGen }) {
     for (let r = 0; r < rowsLen; r++) {
       arr[r] = Array.from({ length: colsLen });
     }
-    // console.log("line18", "Grid has undefined values ");
-    // console.table(arr);
     return arr;
   }
 
   function setUpOnFirstLoad() {
-    console.table(
-      "line37*************************populated2dArray",
-      populated2dArray
-    );
     let myGrid = createDoubleArr(rowsLen, colsLen);
-    let myClearGrid = populateClearGrid(myGrid);
-    let myRandoGrid = populateDblArr(myClearGrid);
-    let [myCopiedGrid, myOGRandoGrid] = copyDblArr(myRandoGrid);
+    // if (x == clear) {
+    //   let populatedGrid = populateClearGrid(myGrid);
+    //   setPopulated2dArray(populatedGrid);
+    // }
+    // if (x == random) {
+    //   let populatedGrid = randomizeGrid(myGrid);
+    //   setPopulated2dArray(populatedGrid);
 
-    // setPopulated2dArray([...myCopiedGrid.map((r) => [...r])]);
-    console.table("line43*************************myCopiedGrid", myCopiedGrid);
-    console.table("myOriginalrandomGrid", myOGRandoGrid);
-    setPopulated2dArray(myOGRandoGrid);
-    console.table(
-      "line46*************************populated2dArray",
-      populated2dArray
-    );
+    let populatedGrid = setPopulated2dArray(populateClearGrid(myGrid));
+    return populatedGrid;
   }
 
   /** populate the grid with all 0s */
@@ -54,20 +46,63 @@ export default function Grid({ gen, setGen }) {
         grid[r][c] = 0;
       }
     }
-    // console.log("line29 Grid Cleared");
     // console.table(grid);
     return grid;
   }
 
+  // this.runIteration===
+
+  // runIteration(){
+  // console.log('running iteration');
+  // let newBoard=makeEmptyBoard();
+
+  // setRandomCells()
+  // let handleTimeout= window.setTimeout(()=>{runIteration()},interval)
+  // }
+  // this.timeoutHandler===
+  // let handleTimeout= window.setTimeout(()=>{runIteration()},interval)
+
+  // this.runGame===
+  function runGame() {
+    setisRunning(true);
+    runIteration();
+  }
+
+  // this.stopGame===
+  function stopGame() {
+    setisRunning(false);
+
+    if (newTimeoutHandler == null) {
+      return;
+    }
+    if (newTimeoutHandler) {
+    setnewTimeoutHandler({newTimeoutHandler:  window.clearTimeout(newTimeoutHandler)});
+     setnewTimeoutHandler({newTimeoutHandler:null}) ;
+    }
+  }
+
+  // this.handleIntervalChange===
+
+  function handleIntervalChange(event) {
+    setIntervalState({ interval: event.target.value });
+  }
+
+  function clearGrid() {
+    populateClearGrid(populated2dArray);
+    setClear(true);
+    setGen(0);
+    console.log("line29 Grid Cleared");
+  }
+
   /**  populate the 2dimensional Array with random 1s & 0s */
-  function populateDblArr(rando) {
+  function randomizeGrid(rando) {
     for (let c = 0; c < colsLen; c++) {
       for (let r = 0; r < rowsLen; r++) {
         rando[r][c] = Math.floor(Math.random() * 2);
       }
     }
-    // console.log("line42 Grid Randomized");
-    // console.table(rando);
+    setRandom(true);
+
     return rando;
   }
 
@@ -80,14 +115,11 @@ export default function Grid({ gen, setGen }) {
   /** return af count of neighbors with value 1 for a single grid cell   */
   function checkToroidalNeighbors(prevG, col, row) {
     let liveCNT = 0;
-
     for (let tY = -1; tY <= 1; tY++) {
       for (let tX = -1; tX <= 1; tX++) {
         let relativeX = (tX + col + colsLen) % colsLen;
         let relativeY = (tY + row + rowsLen) % rowsLen;
-        if (prevG[relativeY][relativeX] === 1) {
-          liveCNT++;
-        }
+        liveCNT += prevG[relativeY][relativeX];
       }
     }
     liveCNT -= prevG[col][row];
@@ -99,74 +131,81 @@ export default function Grid({ gen, setGen }) {
    * by referring to liveNeighborCount("LNC") of same cell in original grid
    * if LNC < 2 set cloned grid cell value = 0   * if LNC = 3 set cloned grid cell value = 1   * if LNC > 3  set cloned grid cell value = 0
    */
-  function updateGrid(newGridd, prevGrid) {
-    console.table("tuck this is updateGridnewGridd", newGridd);
+  function updateGrid(newGrid, prevGrid) {
     for (let r = 0; r < rowsLen; r++) {
       for (let c = 0; c < colsLen; c++) {
-        let liveCnt = checkToroidalNeighbors([...prevGrid], c, r);
-        if (liveCnt < 2 || liveCnt > 3) {
-          newGridd[r][c] = 0;
+        let liveCnt = checkToroidalNeighbors(prevGrid, c, r);
+        if (liveCnt < 2) {
+          newGrid[r][c] = 0;
         }
         if (liveCnt === 3) {
-          newGridd[r][c] = 1;
+          newGrid[r][c] = 1;
+        }
+        if (liveCnt > 3) {
+          newGrid[r][c] = 0;
         }
       }
     }
-    setgenerationCount(generationCount+1);
-    setPopulated2dArray(newGridd);
-    // console.log("line105 => UpdateGrid by LiveNeighborsCount", "new generation #:", generationCount);
-    // console.table(newGrid);
+    setPopulated2dArray(newGrid);
+    setGen(gen + 1);
   }
 
-  function gol(populated2dArray) {
-    let [copiedArr, og_Arr] = copyDblArr(populated2dArray);
-    updateGrid(copiedArr, og_Arr);
+  function runIteration() {
+    console.log(gen);
+    let [copiedArr] = copyDblArr(populated2dArray);
+
+    let newTimeoutHandler = window.setTimeout(() => {
+      runIteration()
+      window.clearTimeout(newTimeoutHandler)
+    }, +interval);
+
+    updateGrid(copiedArr, populated2dArray)
   }
 
-  function setRandomGrid(grid) {
-    let populatedGrid = populateDblArr(grid);
-    // console.table( populatedGrid );
-    // console.log('line119=> populatedGrid ');
-    setPopulated2dArray(populatedGrid);
+  function runSingleStep() {
+    console.log(gen);
+    let [copiedArr] = copyDblArr(populated2dArray);
+
+    let newTimeoutHandler = window.setTimeout(() => {
+      runIteration();
+    }, +interval);
+    updateGrid(copiedArr, populated2dArray);
+    window.clearTimeout(newTimeoutHandler);
   }
 
-  function stopGenerationCount() {
-    setgenerationCount(0);
-    console.log({ generationCount });
-  }
+  /** sideeffects */
 
-  function startGenerationCount() {
-    setgenerationCount(generationCount + 1);
-    console.log({ generationCount });
-  }
-
-  let [clicked, setClicked] = useState(true);
-
-  useEffect(() => {
-    setUpOnFirstLoad();
-  }, []);
-  useEffect(() => {
-    gol(populated2dArray);
-  }, [clicked]);
   // useEffect(() => {
-  //   if (generationCount === 0) {
-  //     setPopulated2dArray(populateClearGrid(empty2dArray));
-  //   }
-  //   if (generationCount > 0) {
-  //     let T = setInterval(gol(populated2dArray), 1000);
-  //     return clearInterval(T);
-  //   }
-  // }, [generationCount]);
+  //   setUpOnFirstLoad(randomizeGrid);
 
-  // let emptyDoubleArr = createDoubleArr(rowsLen, colsLen);
-  // let fullDblArr = populateDR(emptyDoubleArr);
-  // let [newGrid,generation] = copyDR(fullDblArr);
+  //   setGen(0);
+  // }, []);
+  // useEffect(() => {
+  //   if (clear) {
+  //     setUpOnFirstLoad(populateClearGrid);
+  //     setClear(false);
+  //   }
+  //   if (random) {
+  //     setUpOnFirstLoad(randomizeGrid);
+  //     setRandom(false);
+  //   }
+  //   setGen(0);
+  // }, [clear, random]);
 
-  // let empty2dArray =
-  // setPopulated2dArray(populateClearGrid(createDoubleArr(rowsLen, colsLen)));
+  //         let dl =[250,300,350,400,450,500,550,600,650,700,750,800,850,900,1000,1050,1100,1150,1200,1250,1300,1350,1400,1450,1500,1550,1600,1650,1700,1750,1800,1850,1900,1950,2000];
+  //         let j= {};
+  // j.key=null
+  // dl.map((el, i)=>
+  //   j.key=el,
+  //   el =document.createElement("option"),
+  //   el.textContent = dl[i],
+  //   el.setAttribute("label", null),
+
+  //   return(  lifeCycleRange.append(j)),
+  // );
   return (
     <>
-      <h2>generation:{generationCount}</h2>
+      <h2>generation:{gen}</h2>
       <div
         className="Grid"
         style={{
@@ -183,61 +222,112 @@ export default function Grid({ gen, setGen }) {
             <Row key={`row-${ri}`} ri={ri} row={row} />
           ))}
       </div>
-      <button onClick={() => setClicked(!clicked)}>
-        click to [+] generation
-      </button>
-      <div>{clicked}</div>
+
+      <div>
+        <label>speed</label>
+        <input
+          type="range"
+          step="50"
+          value="500"
+          min="250"
+          max="2000"
+          list="lifeCycleRange"
+          id="lifeCyleRangeSlide"
+        />
+        <datalist
+          id="lifeCycleRange"
+          name="lifeCycleRange"
+          type="datalist"
+        ></datalist>
+      </div>
+
       <button
-        onClick={() => startGenerationCount()}
         style={{
-          color: "black",
+          color: "lightgreen",
+          backgroundColor: "lightgreen",
           fontSize: "3rem",
-          padding: "1rem,3rem",
+          width: "275px",
+          height: "100px",
+          padding: "1rem,2rem",
           margin: "1rem",
-          borderRadius: "14px"
+          borderRadius: "14px",
+          textShadow: "-.74px .74px 2.7px green,-.77px -1.47px .73px white",
+          boxShadow:
+            "-.7px 1.7px .7px 1px black, -1.7px 1.7px 1.7px .17px green"
         }}
+        onClick={() => runGame()}
       >
         <span>Start</span>
       </button>
       <button
-        onClick={() => stopGenerationCount()}
         style={{
-          color: "red",
+          color: "lightgreen",
+          backgroundColor: "lightgreen",
           fontSize: "3rem",
-          padding: "1rem,3rem",
+          width: "275px",
+          height: "100px",
+          padding: "1rem,2rem",
           margin: "1rem",
-          borderRadius: "14px"
+          borderRadius: "14px",
+          textShadow: "-.74px .74px 2.7px green,-.77px -1.47px .73px white",
+          boxShadow:
+            "-.7px 1.7px .7px 1px black, -1.7px 1.7px 1.7px .17px green"
         }}
+        onClick={() => runSingleStep()}
+      >
+        <span>SingleStep</span>
+      </button>
+
+      <button
+        style={{
+          color: "firebrick",
+          backgroundColor: "firebrick",
+          fontSize: "3rem",
+          width: "275px",
+          height: "100px",
+          padding: "1rem,2rem",
+          margin: "1rem",
+          borderRadius: "14px",
+          textShadow: "-.74px .74px 2.7px darkred,-.77px -.7px .74px white",
+          boxShadow:
+            "-.7px 1.7px .7px .1px black, -1.7px 1.7px 1.7px .17px darkred"
+        }}
+        onClick={() => stopGame()}
       >
         <span>Stop</span>
       </button>
 
       <button
-        onClick={() => populateClearGrid(populated2dArray)}
         style={{
           color: "gold",
           boxShadow: "1px 1px 1px 1px white,-1px -1px 1px 1px black",
           border: "solid 3px black",
           backgroundColor: "gold",
-          textShadow: ".4px .4px .4px white,-.4px -.4px .4px black",
+          textShadow: "-.74px -.74px .4px white,-.74px .74px 2.74px black",
           fontSize: "3rem",
-          padding: "1rem,3rem",
+          width: "275px",
+          height: "100px",
+          padding: "1rem,2rem",
           margin: "1rem",
           borderRadius: "14px"
         }}
+        onClick={() => clearGrid()}
       >
         <span>Clear</span>
       </button>
+
       <button
-        onClick={()=>setRandomGrid(populated2dArray)}
+        onClick={() => randomizeGrid(populated2dArray)}
         style={{
           color: "gold",
           boxShadow: "1px 1px 1px 1px white,-1px -1px 1px 1px black",
           border: "solid 3px black",
           backgroundColor: "gold",
-          textShadow: ".4px .4px .4px black,-.4px -.4px .4px white",
+          textShadow: ".74px .74px 2.74px black,-.74px -.74px .74px white",
           fontSize: "3rem",
-          padding: "1rem,3rem",
+          width: "300px",
+          height: "150px",
+          padding: "1rem,2rem",
           margin: "1rem",
           borderRadius: "14px"
         }}
