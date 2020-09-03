@@ -6,10 +6,8 @@ import "./styles.css";
 export default function Grid({ gen, setGen }) {
   let rowsLen = 20;
   let colsLen = 20;
-  const [interval, setIntervalState] = useState(null);
+  const [intervalState, setIntervalState] = useState(null);
   const [isRunning, setisRunning] = useState(false);
-  let [clear, setClear] = useState(true);
-  let [random, setRandom] = useState(false);
   let [populated2dArray, setPopulated2dArray] = useState(
     populateClearGrid(createDoubleArr(rowsLen, colsLen))
   );
@@ -23,20 +21,6 @@ export default function Grid({ gen, setGen }) {
     return arr;
   }
 
-  function setUpOnFirstLoad() {
-    let myGrid = createDoubleArr(rowsLen, colsLen);
-    // if (x == clear) {
-    //   let populatedGrid = populateClearGrid(myGrid);
-    //   setPopulated2dArray(populatedGrid);
-    // }
-    // if (x == random) {
-    //   let populatedGrid = randomizeGrid(myGrid);
-    //   setPopulated2dArray(populatedGrid);
-
-    let populatedGrid = setPopulated2dArray(populateClearGrid(myGrid));
-    return populatedGrid;
-  }
-
   /** populate the grid with all 0s */
   function populateClearGrid(grid) {
     for (let c = 0; c < colsLen; c++) {
@@ -44,23 +28,8 @@ export default function Grid({ gen, setGen }) {
         grid[r][c] = 0;
       }
     }
-    // console.table(grid);
     return grid;
   }
-
-  // this.RunIteration===
-
-  // RunIteration(){
-  // console.log('running iteration');
-  // let newBoard=makeEmptyBoard();
-
-  // setRandomCells()
-  // let handleTimeout= window.setTimeout(()=>{RunIteration()},interval)
-  // }
-  // this.timeoutHandler===
-  // let handleTimeout= window.setTimeout(()=>{RunIteration()},interval)
-
-  // this.runGame===
   function runGame() {
     setisRunning(true);
   }
@@ -74,8 +43,8 @@ export default function Grid({ gen, setGen }) {
   // this.handleIntervalChange===
 
   function handleIntervalSlideChange(event) {
-    setIntervalState({ interval: event.target.value });
-    console.log({ interval });
+    setIntervalState( event.target.value);
+    console.log({ intervalState });
   }
 
   function clearGrid() {
@@ -136,6 +105,9 @@ export default function Grid({ gen, setGen }) {
       window.alert("complete");
       console.table(newGrid, prevGrid);
       console.log({ sameCellsLen, totalCells });
+      setIntervalState(null);
+      setisRunning(false);
+
     }
     return [newGrid, prevGrid];
   }
@@ -163,22 +135,6 @@ export default function Grid({ gen, setGen }) {
     return [newGrid, prevGrid];
   }
   function updateGrid() {
-    // let [newGrid, prevGrid] = copyDblArr(populated2dArray);
-    // for (let r = 0; r < rowsLen; r++) {
-    //   for (let c = 0; c < colsLen; c++) {
-    //     let liveCnt = checkToroidalNeighbors(prevGrid, c, r);
-    //     if (liveCnt < +2) {
-    //       newGrid[r][c] = 0;
-    //     }
-    //     if (liveCnt === +3) {
-    //       newGrid[r][c] = +1;
-    //     }
-    //     if (liveCnt > +3) {
-    //       newGrid[r][c] = 0;
-    //     }
-    //   }
-    // }
-
     let [newGrid] = checkGrid();
     setPopulated2dArray(newGrid);
     setGen(gen + 1);
@@ -186,19 +142,19 @@ export default function Grid({ gen, setGen }) {
 
   function RunIteration() {
     console.log(gen);
-    useInterval(updateGrid(), interval);
+    useInterval(updateGrid(), intervalState);
   }
 
   function runSingleStep() {
     console.log(gen);
     let [copiedArr] = copyDblArr(populated2dArray);
-
     let newTimeoutHandler = window.setTimeout(() => {
       RunIteration();
-    }, +interval);
+    }, +intervalState);
     updateGrid(copiedArr, populated2dArray);
     window.clearTimeout(newTimeoutHandler);
   }
+  /** sideeffects */
 
   function useInterval(callback, delay) {
     let id;
@@ -206,12 +162,11 @@ export default function Grid({ gen, setGen }) {
     useEffect(() => {
       savedCallback.current = callback;
     });
-
     useEffect(() => {
       function tick() {
         savedCallback.current();
       }
-      if (isRunning && delay) {
+      if (isRunning) {
         id = setInterval(tick, delay);
         return () => {
           clearInterval(id);
@@ -221,9 +176,8 @@ export default function Grid({ gen, setGen }) {
     // return [id]
   }
 
-  useInterval(() => updateGrid(), interval);
+  useInterval(() => updateGrid(), intervalState);
 
-  /** sideeffects */
 
   let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
 
@@ -249,7 +203,7 @@ export default function Grid({ gen, setGen }) {
 
       <div>
         <form>
-          <label>speed</label>
+          <label>speed:{intervalState||"stopped"}</label>
           <div
             className="sliderBox"
             style={{
@@ -267,12 +221,12 @@ export default function Grid({ gen, setGen }) {
           <input
             type="range"
             step="250"
-            value="500"
+            value={intervalState||null}
             min="250"
             max="2000"
             list="lifeCycleRange"
             id="lifeCyleRangeSlide"
-            onChange={handleIntervalSlideChange}
+            onChange={(event)=>handleIntervalSlideChange(event)}
           />
           <datalist
             id="lifeCycleRange"
