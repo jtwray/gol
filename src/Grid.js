@@ -43,7 +43,7 @@ export default function Grid({ gen, setGen }) {
   // this.handleIntervalChange===
 
   function handleIntervalSlideChange(event) {
-    setIntervalState( event.target.value);
+    setIntervalState(event.target.value);
     console.log({ intervalState });
   }
 
@@ -72,7 +72,7 @@ export default function Grid({ gen, setGen }) {
     return [newArr, arr];
   }
 
-  /** return af count of neighbors with value 1 for a single grid cell   */
+  /**  for a single grid cell-- return a count of all adjacent & living cells [alive = cell has value of 1]   */
   function checkToroidalNeighbors(prevG, col, row) {
     let liveCNT = 0;
     for (let tY = -1; tY <= 1; tY++) {
@@ -99,16 +99,17 @@ export default function Grid({ gen, setGen }) {
           sameCellsLen += 1;
         }
       }
+      
+      if (newGrid === prevGrid || sameCellsLen === totalCells) {
+        window.alert("complete");
+        console.table(newGrid, prevGrid);
+        console.log({ sameCellsLen, totalCells });
+        setIntervalState(null);
+        setisRunning(false);
+        sameCellsLen+=1
+      }
     }
-
-    if (newGrid === prevGrid || sameCellsLen === totalCells) {
-      window.alert("complete");
-      console.table(newGrid, prevGrid);
-      console.log({ sameCellsLen, totalCells });
-      setIntervalState(null);
-      setisRunning(false);
-
-    }
+  
     return [newGrid, prevGrid];
   }
   /** update the copyGrid and then overwrite the original with the updatedCopy
@@ -178,7 +179,6 @@ export default function Grid({ gen, setGen }) {
 
   useInterval(() => updateGrid(), intervalState);
 
-
   let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
 
   return (
@@ -203,7 +203,7 @@ export default function Grid({ gen, setGen }) {
 
       <div>
         <form>
-          <label>speed:{intervalState||"stopped"}</label>
+          <label>speed:{intervalState || "stopped"}</label>
           <div
             className="sliderBox"
             style={{
@@ -221,12 +221,12 @@ export default function Grid({ gen, setGen }) {
           <input
             type="range"
             step="250"
-            value={intervalState||null}
+            value={intervalState || null}
             min="250"
             max="2000"
             list="lifeCycleRange"
             id="lifeCyleRangeSlide"
-            onChange={(event)=>handleIntervalSlideChange(event)}
+            onChange={(event) => handleIntervalSlideChange(event)}
           />
           <datalist
             id="lifeCycleRange"
