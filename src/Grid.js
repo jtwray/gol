@@ -65,71 +65,197 @@ export default function Grid({ gen, setGen }) {
     return rando;
   }
 
-function handleSelectPreset(event){
-  setPreset(populated2dArray,event.target.value)
-
-}
-  //loop through the grid
-  //loop through the preset array of objects 
-  // for i in preset array set i in grid to true or 1
-function setPreset(grid,preset){
-let presetLen= preset.length
-for(let preset=0; preset<presetLen; preset++){
-let [x,y]=preset;
-grid[x][y]=1
-}
-}
-//create a button for each preset
-// clicking the button will setPopulated2dArray to the preset selected
-// calls setPreset(currentGrid,selectedPreset)
-//create a dropdown with options for each preset
-let presetCollection=[
-  {name: "Clear", data: []},
-  {
-    name: "XKCD RIP John Conway  ", data: [
-          [2, 0], [3, 0], [4, 0],
-          [2, 1], [4, 1],
-          [2, 2], [4, 2],
-          [3, 3],
-          [0, 4], [2, 4], [3, 4], [4, 4],
-          [1, 5], [3, 5], [5, 5],
-          [3, 6], [6, 6],
-          [2, 7], [4, 7],
-          [2, 8], [4, 8],
-      ]
-  },
-  {name: "Glider", data: [[1, 0], [2, 1], [2, 2], [1, 2], [0, 2]]},
-  {name: "Small Exploder", data: [[0, 1], [0, 2], [1, 0], [1, 1], [1, 3], [2, 1], [2, 2]]},
-  {
-    name: "Exploder",
-    data: [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [2, 0], [2, 4], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4]]
-  },
-  {
-    name: "10 Cell Row",
-    data: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0]]
-  },
-  {
-      name: "Lightweight spaceship",
-      data: [[0, 1], [0, 3], [1, 0], [2, 0], [3, 0], [3, 3], [4, 0], [4, 1], [4, 2]]
-  },
-  {
-      name: "Tumbler",
-      data: [[0, 3], [0, 4], [0, 5], [1, 0], [1, 1], [1, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4], [5, 0], [5, 1], [5, 5], [6, 3], [6, 4], [6, 5]]
-  },
-  {
-      name: "Gosper Glider Gun",
-      data: [[0, 2], [0, 3], [1, 2], [1, 3], [8, 3], [8, 4], [9, 2], [9, 4], [10, 2], [10, 3], [16, 4], [16, 5], [16, 6], [17, 4], [18, 5], [22, 1], [22, 2], [23, 0], [23, 2], [24, 0], [24, 1], [24, 12], [24, 13], [25, 12], [25, 14], [26, 12], [34, 0], [34, 1], [35, 0], [35, 1], [35, 7], [35, 8], [35, 9], [36, 7], [37, 8]]
+  function handleSelectPreset(event) {
+    console.log("line69",event.target.value)
+    setPreset(populated2dArray, event.target.value);
   }
-
-]
-let presetCollectionLen=presetCollection.length;
+  //loop through the grid
+  //loop through the preset array of objects
+  // for i in preset array set i in grid to true or 1
+  function setPreset(grid, preset) {
+    console.log("line 76 {grid,preset}", { grid, preset });
+    // let presetLen= preset.length
+    // for(let preset=0; preset<presetLen; preset++){
+    // let [x,y]=preset;
+    // grid[x][y]=1
+    // }
+  }
+  //create a button for each preset
+  // clicking the button will setPopulated2dArray to the preset selected
+  // calls setPreset(currentGrid,selectedPreset)
+  //create a dropdown with options for each preset
+  let presetCollection = [
+    { name: "Clear", data: [] },
+    {
+      name: "XKCD RIP John Conway  ",
+      data: [
+        [2, 0],
+        [3, 0],
+        [4, 0],
+        [2, 1],
+        [4, 1],
+        [2, 2],
+        [4, 2],
+        [3, 3],
+        [0, 4],
+        [2, 4],
+        [3, 4],
+        [4, 4],
+        [1, 5],
+        [3, 5],
+        [5, 5],
+        [3, 6],
+        [6, 6],
+        [2, 7],
+        [4, 7],
+        [2, 8],
+        [4, 8]
+      ]
+    },
+    {
+      name: "Glider",
+      data: [
+        [1, 0],
+        [2, 1],
+        [2, 2],
+        [1, 2],
+        [0, 2]
+      ]
+    },
+    {
+      name: "Small Exploder",
+      data: [
+        [0, 1],
+        [0, 2],
+        [1, 0],
+        [1, 1],
+        [1, 3],
+        [2, 1],
+        [2, 2]
+      ]
+    },
+    {
+      name: "Exploder",
+      data: [
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [0, 3],
+        [0, 4],
+        [2, 0],
+        [2, 4],
+        [4, 0],
+        [4, 1],
+        [4, 2],
+        [4, 3],
+        [4, 4]
+      ]
+    },
+    {
+      name: "10 Cell Row",
+      data: [
+        [0, 0],
+        [1, 0],
+        [2, 0],
+        [3, 0],
+        [4, 0],
+        [5, 0],
+        [6, 0],
+        [7, 0],
+        [8, 0],
+        [9, 0]
+      ]
+    },
+    {
+      name: "Lightweight spaceship",
+      data: [
+        [0, 1],
+        [0, 3],
+        [1, 0],
+        [2, 0],
+        [3, 0],
+        [3, 3],
+        [4, 0],
+        [4, 1],
+        [4, 2]
+      ]
+    },
+    {
+      name: "Tumbler",
+      data: [
+        [0, 3],
+        [0, 4],
+        [0, 5],
+        [1, 0],
+        [1, 1],
+        [1, 5],
+        [2, 0],
+        [2, 1],
+        [2, 2],
+        [2, 3],
+        [2, 4],
+        [4, 0],
+        [4, 1],
+        [4, 2],
+        [4, 3],
+        [4, 4],
+        [5, 0],
+        [5, 1],
+        [5, 5],
+        [6, 3],
+        [6, 4],
+        [6, 5]
+      ]
+    },
+    {
+      name: "Gosper Glider Gun",
+      data: [
+        [0, 2],
+        [0, 3],
+        [1, 2],
+        [1, 3],
+        [8, 3],
+        [8, 4],
+        [9, 2],
+        [9, 4],
+        [10, 2],
+        [10, 3],
+        [16, 4],
+        [16, 5],
+        [16, 6],
+        [17, 4],
+        [18, 5],
+        [22, 1],
+        [22, 2],
+        [23, 0],
+        [23, 2],
+        [24, 0],
+        [24, 1],
+        [24, 12],
+        [24, 13],
+        [25, 12],
+        [25, 14],
+        [26, 12],
+        [34, 0],
+        [34, 1],
+        [35, 0],
+        [35, 1],
+        [35, 7],
+        [35, 8],
+        [35, 9],
+        [36, 7],
+        [37, 8]
+      ]
+    }
+  ];
+  let presetCollectionLen = presetCollection.length;
 
   /** return both an exact clone of and the original randomly populated, 2dimensional Array  */
   function copyDblArr(arr) {
     let newArr = [...arr.map((r) => [...r])];
     return [newArr, arr];
   }
-  
+
   /**  for a single grid cell-- return a count of all adjacent & living cells [alive = cell has value of 1]   */
   function checkToroidalNeighbors(prevG, col, row) {
     let liveCNT = 0;
@@ -157,17 +283,17 @@ let presetCollectionLen=presetCollection.length;
           sameCellsLen += 1;
         }
       }
-      
+
       if (newGrid === prevGrid || sameCellsLen === totalCells) {
         window.alert("complete");
         console.table(newGrid, prevGrid);
         console.log({ sameCellsLen, totalCells });
         setIntervalState(null);
         setisRunning(false);
-        sameCellsLen+=1
+        sameCellsLen += 1;
       }
     }
-  
+
     return [newGrid, prevGrid];
   }
   /** update the copyGrid and then overwrite the original with the updatedCopy
@@ -387,17 +513,23 @@ let presetCollectionLen=presetCollection.length;
       >
         <span>Random Grid</span>
       </button>
-<section><h2>Presets</h2>
-<select>
-{
-// for(let p=0;p<presetCollectionLen; p++){
-presetCollection.map(preset=><option value={preset.data}>{preset.name}{console.log("line394 preset.data",preset.data)}</option>)
-
-}
-
-}
-</select>
-</section>
+      <section>
+        <h2>Presets</h2>
+        <select onChange={(e) => handleSelectPreset(e)}>
+          {
+            // for(let p=0;p<presetCollectionLen; p++){
+            presetCollection.map((preset) => (
+              <option
+                key={`${preset.name}__${presetCollection.indexOf(preset)}`}
+                value={preset.data}
+              >
+                {preset.name}
+              </option>
+            ))
+          }
+          }
+        </select>
+      </section>
     </>
   );
 }
