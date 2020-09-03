@@ -93,6 +93,7 @@ export default function Grid({ gen, setGen }) {
     }
 
     setPopulated2dArray(rando);
+    setGen(0);
     return rando;
   }
 
@@ -115,13 +116,35 @@ export default function Grid({ gen, setGen }) {
     liveCNT -= prevG[col][row];
     return liveCNT;
   }
+  function checkGrid() {
+    let [newGrid, prevGrid] = updateCells();
+    let sameCells = [];
+    let sameCellsLen = 0;
+    let totalCells = rowsLen * colsLen;
 
+    for (let r = 0; r < rowsLen; r++) {
+      for (let c = 0; c < colsLen; c++) {
+        let cell = { r, c };
+        if (newGrid[r][c] === prevGrid[r][c]) {
+          sameCells.push(cell);
+          sameCellsLen += 1;
+        }
+      }
+    }
+
+    if (newGrid === prevGrid || sameCellsLen === totalCells) {
+      window.alert("complete");
+      console.table(newGrid, prevGrid);
+      console.log({ sameCellsLen, totalCells });
+    }
+    return [newGrid, prevGrid];
+  }
   /** update the copyGrid and then overwrite the original with the updatedCopy
    *  set value for each cell of the cloned grid to 1 or 0
    * by referring to liveNeighborCount("LNC") of same cell in original grid
    * if LNC < 2 set cloned grid cell value = 0   * if LNC = 3 set cloned grid cell value = 1   * if LNC > 3  set cloned grid cell value = 0
    */
-  function updateGrid() {
+  function updateCells() {
     let [newGrid, prevGrid] = copyDblArr(populated2dArray);
     for (let r = 0; r < rowsLen; r++) {
       for (let c = 0; c < colsLen; c++) {
@@ -137,6 +160,26 @@ export default function Grid({ gen, setGen }) {
         }
       }
     }
+    return [newGrid, prevGrid];
+  }
+  function updateGrid() {
+    // let [newGrid, prevGrid] = copyDblArr(populated2dArray);
+    // for (let r = 0; r < rowsLen; r++) {
+    //   for (let c = 0; c < colsLen; c++) {
+    //     let liveCnt = checkToroidalNeighbors(prevGrid, c, r);
+    //     if (liveCnt < +2) {
+    //       newGrid[r][c] = 0;
+    //     }
+    //     if (liveCnt === +3) {
+    //       newGrid[r][c] = +1;
+    //     }
+    //     if (liveCnt > +3) {
+    //       newGrid[r][c] = 0;
+    //     }
+    //   }
+    // }
+
+    let [newGrid] = checkGrid();
     setPopulated2dArray(newGrid);
     setGen(gen + 1);
   }
@@ -168,7 +211,7 @@ export default function Grid({ gen, setGen }) {
       function tick() {
         savedCallback.current();
       }
-      if (isRunning==true && delay) {
+      if (isRunning && delay) {
         id = setInterval(tick, delay);
         return () => {
           clearInterval(id);
@@ -182,8 +225,7 @@ export default function Grid({ gen, setGen }) {
 
   /** sideeffects */
 
-  let dl = [500, 750, 1000,1250, 1500,1750, 2000]; 
-
+  let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
 
   return (
     <>
@@ -206,34 +248,38 @@ export default function Grid({ gen, setGen }) {
       </div>
 
       <div>
-        <label>speed</label>
-        <div
-          className="sliderBox"
-          style={{
-            display: "inline",
-            writingMode: "vertical-lr",
-            maxWidth: "100%"
-          }}
-        >
-          {dl.map((option, i) => (
-            <option key={`${option}_${i}`} value={option}>{option}</option>
-          ))}
-        </div>
-        <input
-          type="range"
-          step="250"
-          value="500"
-          min="250"
-          max="2000"
-          list="lifeCycleRange"
-          id="lifeCyleRangeSlide"
-          onChange={handleIntervalSlideChange}
-        />
-        <datalist
-          id="lifeCycleRange"
-          name="lifeCycleRange"
-          type="datalist"
-        ></datalist>
+        <form>
+          <label>speed</label>
+          <div
+            className="sliderBox"
+            style={{
+              display: "inline",
+              writingMode: "vertical-lr",
+              maxWidth: "100%"
+            }}
+          >
+            {dl.map((option, i) => (
+              <option key={`${option}_${i}`} value={option}>
+                {option}
+              </option>
+            ))}
+          </div>
+          <input
+            type="range"
+            step="250"
+            value="500"
+            min="250"
+            max="2000"
+            list="lifeCycleRange"
+            id="lifeCyleRangeSlide"
+            onChange={handleIntervalSlideChange}
+          />
+          <datalist
+            id="lifeCycleRange"
+            name="lifeCycleRange"
+            type="datalist"
+          ></datalist>
+        </form>
       </div>
 
       <button
