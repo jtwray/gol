@@ -8,7 +8,7 @@ export default function Grid({ gen, setGen }) {
   let colsLen = 20;
   const [intervalState, setIntervalState] = useState(null);
   const [isRunning, setisRunning] = useState(false);
-  const [isPreset, setisPreset] = useState('clear');
+  const [isPreset, setisPreset] = useState("clear");
   let [populated2dArray, setPopulated2dArray] = useState(
     populateClearGrid(createDoubleArr(rowsLen, colsLen))
   );
@@ -68,29 +68,24 @@ export default function Grid({ gen, setGen }) {
 
   function handleSelectPreset(event) {
     // setisPreset(event.target.value)
-    let chosen=presetCollection.filter(preset=>preset.name==(event.target.value));
-    console.log("line70 chosen",chosen[0].data);
-    console.log("line69",(event.target.value));
+    let chosen = presetCollection.filter(
+      (preset) => preset.name == event.target.value
+    );
+    console.log("line70 chosen", chosen[0].data);
+    console.log("line69", event.target.value);
     setPreset(populated2dArray, chosen[0].data);
   }
   //loop through the grid
   //loop through the preset array of objects
   // for i in preset array set i in grid to true or 1
   function setPreset(grid, preset) {
-    let presetLen= preset.length;
-
-    console.log("line 76 {grid,preset}", {grid}, presetLen, preset[0] );
-    for(let c=0;c<colsLen;c++){
-      for(let r=0;r<rowsLen;r++){
-        
-      }}
-    
-    preset.map((p)=>{
-      let [x,y]=p;
-      return(
-    grid[y+5][x+5]=1
-  )})
-
+    let presetLen = preset.length;
+    let midPntCol=colsLen/2
+    let midPntRow=rowsLen/2
+    preset.map((p) => {
+      let [x, y] = p;
+      return (grid[y + midPntCol][x + midPntRow] = 1);
+    });
   }
   //create a button for each preset
   // clicking the button will setPopulated2dArray to the preset selected
@@ -267,7 +262,7 @@ export default function Grid({ gen, setGen }) {
     let newArr = [...arr.map((r) => [...r])];
     return [newArr, arr];
   }
-
+  function setGridSize(rowsLen, colsLen) {}
   /**  for a single grid cell-- return a count of all adjacent & living cells [alive = cell has value of 1]   */
   function checkToroidalNeighbors(prevG, col, row) {
     let liveCNT = 0;
@@ -296,12 +291,11 @@ export default function Grid({ gen, setGen }) {
         }
       }
 
-      if (isRunning &&  sameCellsLen === totalCells) {
-
+      if (isRunning && sameCellsLen === totalCells) {
         setIntervalState(null);
         setisRunning(false);
         window.alert("complete");
-        return [newGrid,prevGrid]
+        return [newGrid, prevGrid];
       }
     }
 
@@ -362,7 +356,7 @@ export default function Grid({ gen, setGen }) {
       function tick() {
         savedCallback.current();
       }
-      if (isRunning&&delay!=null) {
+      if (isRunning && delay != null) {
         id = setInterval(tick, delay);
         return () => {
           clearInterval(id);
@@ -530,11 +524,12 @@ export default function Grid({ gen, setGen }) {
           {
             // for(let p=0;p<presetCollectionLen; p++){
             presetCollection.map((preset) => (
-              <option name={preset.name}
+              <option
+                name={preset.name}
                 key={`${preset.name}__${presetCollection.indexOf(preset)}`}
                 value={preset.name}
               >
-                {preset.name}{console.log("line526 presetdata",preset.data)}
+                {preset.name}
               </option>
             ))
           }
