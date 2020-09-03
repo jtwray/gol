@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "./Box.js";
 import Row from "./Row.js";
 import "./styles.css";
@@ -6,10 +6,8 @@ import "./styles.css";
 export default function Grid({ gen, setGen }) {
   let rowsLen = 20;
   let colsLen = 20;
-  let [clicked, setClicked] = useState(true);
-  const [interval, setIntervalState] = useState({ interval: +1000 });
+  const [interval, setIntervalState] = useState(null);
   const [isRunning, setisRunning] = useState(false);
-const[newTimeoutHandler,setnewTimeoutHandler]=useState(null)
   let [clear, setClear] = useState(true);
   let [random, setRandom] = useState(false);
   let [populated2dArray, setPopulated2dArray] = useState(
@@ -50,46 +48,38 @@ const[newTimeoutHandler,setnewTimeoutHandler]=useState(null)
     return grid;
   }
 
-  // this.runIteration===
+  // this.RunIteration===
 
-  // runIteration(){
+  // RunIteration(){
   // console.log('running iteration');
   // let newBoard=makeEmptyBoard();
 
   // setRandomCells()
-  // let handleTimeout= window.setTimeout(()=>{runIteration()},interval)
+  // let handleTimeout= window.setTimeout(()=>{RunIteration()},interval)
   // }
   // this.timeoutHandler===
-  // let handleTimeout= window.setTimeout(()=>{runIteration()},interval)
+  // let handleTimeout= window.setTimeout(()=>{RunIteration()},interval)
 
   // this.runGame===
   function runGame() {
     setisRunning(true);
-    runIteration();
   }
 
   // this.stopGame===
   function stopGame() {
     setisRunning(false);
-
-    if (newTimeoutHandler == null) {
-      return;
-    }
-    if (newTimeoutHandler) {
-    setnewTimeoutHandler({newTimeoutHandler:  window.clearTimeout(newTimeoutHandler)});
-     setnewTimeoutHandler({newTimeoutHandler:null}) ;
-    }
+    setIntervalState(null);
   }
 
   // this.handleIntervalChange===
 
-  function handleIntervalChange(event) {
+  function handleIntervalSlideChange(event) {
     setIntervalState({ interval: event.target.value });
+    console.log({ interval });
   }
 
   function clearGrid() {
     populateClearGrid(populated2dArray);
-    setClear(true);
     setGen(0);
     console.log("line29 Grid Cleared");
   }
@@ -101,8 +91,8 @@ const[newTimeoutHandler,setnewTimeoutHandler]=useState(null)
         rando[r][c] = Math.floor(Math.random() * 2);
       }
     }
-    setRandom(true);
 
+    setPopulated2dArray(rando);
     return rando;
   }
 
@@ -131,17 +121,18 @@ const[newTimeoutHandler,setnewTimeoutHandler]=useState(null)
    * by referring to liveNeighborCount("LNC") of same cell in original grid
    * if LNC < 2 set cloned grid cell value = 0   * if LNC = 3 set cloned grid cell value = 1   * if LNC > 3  set cloned grid cell value = 0
    */
-  function updateGrid(newGrid, prevGrid) {
+  function updateGrid() {
+    let [newGrid, prevGrid] = copyDblArr(populated2dArray);
     for (let r = 0; r < rowsLen; r++) {
       for (let c = 0; c < colsLen; c++) {
         let liveCnt = checkToroidalNeighbors(prevGrid, c, r);
-        if (liveCnt < 2) {
+        if (liveCnt < +2) {
           newGrid[r][c] = 0;
         }
-        if (liveCnt === 3) {
-          newGrid[r][c] = 1;
+        if (liveCnt === +3) {
+          newGrid[r][c] = +1;
         }
-        if (liveCnt > 3) {
+        if (liveCnt > +3) {
           newGrid[r][c] = 0;
         }
       }
@@ -150,16 +141,9 @@ const[newTimeoutHandler,setnewTimeoutHandler]=useState(null)
     setGen(gen + 1);
   }
 
-  function runIteration() {
+  function RunIteration() {
     console.log(gen);
-    let [copiedArr] = copyDblArr(populated2dArray);
-
-    let newTimeoutHandler = window.setTimeout(() => {
-      runIteration()
-      window.clearTimeout(newTimeoutHandler)
-    }, +interval);
-
-    updateGrid(copiedArr, populated2dArray)
+    useInterval(updateGrid(), interval);
   }
 
   function runSingleStep() {
@@ -167,42 +151,40 @@ const[newTimeoutHandler,setnewTimeoutHandler]=useState(null)
     let [copiedArr] = copyDblArr(populated2dArray);
 
     let newTimeoutHandler = window.setTimeout(() => {
-      runIteration();
+      RunIteration();
     }, +interval);
     updateGrid(copiedArr, populated2dArray);
     window.clearTimeout(newTimeoutHandler);
   }
 
+  function useInterval(callback, delay) {
+    let id;
+    const savedCallback = useRef();
+    useEffect(() => {
+      savedCallback.current = callback;
+    });
+
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (isRunning==true && delay) {
+        id = setInterval(tick, delay);
+        return () => {
+          clearInterval(id);
+        };
+      }
+    }, [delay]);
+    // return [id]
+  }
+
+  useInterval(() => updateGrid(), interval);
+
   /** sideeffects */
 
-  // useEffect(() => {
-  //   setUpOnFirstLoad(randomizeGrid);
+  let dl = [500, 750, 1000,1250, 1500,1750, 2000]; 
 
-  //   setGen(0);
-  // }, []);
-  // useEffect(() => {
-  //   if (clear) {
-  //     setUpOnFirstLoad(populateClearGrid);
-  //     setClear(false);
-  //   }
-  //   if (random) {
-  //     setUpOnFirstLoad(randomizeGrid);
-  //     setRandom(false);
-  //   }
-  //   setGen(0);
-  // }, [clear, random]);
 
-  //         let dl =[250,300,350,400,450,500,550,600,650,700,750,800,850,900,1000,1050,1100,1150,1200,1250,1300,1350,1400,1450,1500,1550,1600,1650,1700,1750,1800,1850,1900,1950,2000];
-  //         let j= {};
-  // j.key=null
-  // dl.map((el, i)=>
-  //   j.key=el,
-  //   el =document.createElement("option"),
-  //   el.textContent = dl[i],
-  //   el.setAttribute("label", null),
-
-  //   return(  lifeCycleRange.append(j)),
-  // );
   return (
     <>
       <h2>generation:{gen}</h2>
@@ -225,14 +207,27 @@ const[newTimeoutHandler,setnewTimeoutHandler]=useState(null)
 
       <div>
         <label>speed</label>
+        <div
+          className="sliderBox"
+          style={{
+            display: "inline",
+            writingMode: "vertical-lr",
+            maxWidth: "100%"
+          }}
+        >
+          {dl.map((option, i) => (
+            <option key={`${option}_${i}`} value={option}>{option}</option>
+          ))}
+        </div>
         <input
           type="range"
-          step="50"
+          step="250"
           value="500"
           min="250"
           max="2000"
           list="lifeCycleRange"
           id="lifeCyleRangeSlide"
+          onChange={handleIntervalSlideChange}
         />
         <datalist
           id="lifeCycleRange"
