@@ -111,6 +111,7 @@ useEffect(()=>{
     );
     console.log("line70 chosen", chosen[0].data);
     console.log("line69", event.target.value);
+    if (event.target.value=="Gosper Glider Gun"&&gridSize<35){return alert("Grid must be at least 40cells wide to createa  The Gosper Glider Gun")}
     setPreset(populated2dArray, chosen[0].data);
   }
   //loop through the grid
@@ -122,7 +123,7 @@ useEffect(()=>{
     let midPntRow = rowsLen / 2;
     preset.map((p) => {
       let [x, y] = p;
-      return (grid[y + midPntCol][x + midPntRow] = 1);
+      return (grid[x + midPntRow][y + midPntCol] = 1);
     });
   }
   //create a button for each preset
@@ -306,12 +307,12 @@ useEffect(()=>{
     let liveCNT = 0;
     for (let tY = -1; tY <= 1; tY++) {
       for (let tX = -1; tX <= 1; tX++) {
-        let relativeX = (tX + col + colsLen) % colsLen;
         let relativeY = (tY + row + rowsLen) % rowsLen;
+        let relativeX = (tX + col + colsLen) % colsLen;
         liveCNT += prevG[relativeY][relativeX];
       }
     }
-    liveCNT -= prevG[col][row];
+    liveCNT -= prevG[row][col];
     return liveCNT;
   }
 
@@ -424,7 +425,7 @@ useEffect(()=>{
       <h2>generation:{gen}</h2>
 
 
-      <div>
+      <div className="slider" >
         <form>
           <label>speed:{intervalState || "stopped"}</label>
           <div
@@ -458,9 +459,9 @@ useEffect(()=>{
           ></datalist>
         </form>
       </div>
-      <div width="300px">
+      <div className="slider" width="300px">
         <form>
-          <label>speed:{gridSize || "stopped"}</label>
+          <label>grid size: {gridSize || "stopped"}</label>
           <div
             className="sliderBox"
             style={{

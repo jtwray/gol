@@ -4,21 +4,25 @@
   text-align: center;
 }
 
-#root{
+#root {
   /* display:inline-block; */
-  background:white;
+  background: white;
 }
 
 .App {
   font-family: sans-serif;
   text-align: center;
 }
-section{
-  display:inline-block;
-width:50%;
-height:100%;
-text-align: center;
-vertical-align: middle;
+
+section {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
+.grid {
+  vertical-align: top;
 }
 input#lifeCyleRangeSlide {
   max-width: 100vw;
@@ -26,7 +30,7 @@ input#lifeCyleRangeSlide {
 }
 
 option {
-  width: 12.50vw;
+  width: 12.5vw;
   display: flex;
   padding: 0 5rem;
 }
@@ -40,7 +44,9 @@ div .sliderBox {
   align-items: center;
   text-align: center;
 }
-
+.slider form {
+  box-sizing: content-box;
+}
 
 .tooltip {
   position: relative;
@@ -60,9 +66,9 @@ div .sliderBox {
   z-index: 1;
   bottom: 100%;
   left: 50%;
-  right:50%;
+  right: 50%;
   margin-left: -60px;
-  font-size:.75rem;
+  font-size: 0.75rem;
   /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
   opacity: 0;
   transition: opacity 1s;
@@ -71,4 +77,13 @@ div .sliderBox {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.box {
+  background: yellow;
+  color: black;
+}
+.liveCell {
+  background: black;
+  color: yellow;
 }
