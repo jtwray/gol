@@ -11,24 +11,23 @@ export default function App() {
 
   let [populated2dArray, setPopulated2dArray] = useState();
   const [gridSize, setGridSize] = useState(20);
+
   function updateBox(grid, r, c) {
     console.log(populated2dArray[r][c], { r }, { c });
-    grid[r][c] === 1 ? (grid[c][r] = 0) : (grid[r][c] = 1);
-    let updatedCell=grid[r][c];
+    grid[r][c] === 1 ? (grid[r][c] = 0) : (grid[r][c] = 1);
+    let updatedCell = grid[r][c];
 
-    console.log({ updatedCell },"updatedCell",updatedCell);
-    console.table(populated2dArray)
+    console.log({ updatedCell }, "updatedCell", updatedCell);
     setPopulated2dArray([
-      ...populated2dArray.map((row, i) =>
-      {
-        let newRow=[...row];
-        if(row!=r){return [...newRow]}else{return[...newRow,row[r]=updatedCell]}
-    //     return(
-    //   row != c ? [...row] : [...newRow, row[r] = updatedCell]
-      
-    // )
-  }) ]);
-    console.table(populated2dArray)
+      ...populated2dArray.map((row) => {
+        let newRow = [...row];
+        if (row != r) {
+          return [...newRow];
+        } else {
+          return [...newRow, (row[c] = updatedCell)];
+        }
+      }),
+    ]);
   }
 
   return (
