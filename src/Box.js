@@ -20,20 +20,20 @@ export default function Box({
       "boxRef.current.classList",
       boxRef.current.classList
     );
-    if (box === 1) {
+    if (!boxIsAlive) {
       boxRef.current.classList.add("liveCell");
     }
-    if (box === 0) {
+    if (boxIsAlive) {
       boxRef.current.classList.remove("liveCell");
     }
   }
   useEffect(() => {
 
-   if(box===1) {
+    if (boxIsAlive) {
       boxRef.current.classList.add("liveCell");
       console.log("livebox")
     }    
-    if (box === 0) {
+    if (!boxIsAlive) {
       boxRef.current.classList.remove("liveCell");
     }
   }, [box, boxIsAlive]);
