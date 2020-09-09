@@ -1,7 +1,8 @@
 import React from "react";
 import Box from "./Box.js";
 
-export default function Row({ row ,ri }) {
+export default function Row({  ri, gridSize,row,populated2dArray,updateBox }) {
+  let rowHeight = 100 / gridSize;
   return (
     <div
       style={{
@@ -9,17 +10,15 @@ export default function Row({ row ,ri }) {
         justifyContent: "space-evenly",
         alignItems: "center",
         width: "100%",
-        height: "5%"
+        height: { rowHeight }
       }}
     >
-      {row&&
-        row.map((box,i) => {
-        
-        return(
-        <Box key={`row-${ri}_box-${i}`} box={box} />
-        )
-      })
-      }
+      {row &&
+        row.map((box, coli) => {
+          return (
+            <Box key={`row-${ri}_box-${coli}`}  box={box} gridSize={gridSize} ri={ri} coli={coli} populated2dArray={populated2dArray} updateBox={updateBox} />
+          );
+        })}
     </div>
   );
 }
