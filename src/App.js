@@ -18,8 +18,8 @@ export default function App() {
 
   return (
     <>
-      <section className="about">
         <h1>The Game of Life</h1>
+      <section className="about">
         <h2>
           <p>
             The Game of Life, also known simply as Life, is a cellular automaton
@@ -37,7 +37,7 @@ export default function App() {
             initial configuration and observing how it evolves.
           </p>
         </h2>
-        <Controls
+        <Controls className="section--Controls"
           updateBox={updateBox}
           gen={gen}
           setGen={setGen}
@@ -46,12 +46,12 @@ export default function App() {
         />
       </section>
 
-      <section>
+      <section className="section--Grid">
         <Grid
           updateBox={updateBox}
           gen={gen}
           setGen={setGen}
-          style={{ background: "purple" }}
+       
           populated2dArray={populated2dArray}
           setPopulated2dArray={setPopulated2dArray}
         />
