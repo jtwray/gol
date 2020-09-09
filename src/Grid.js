@@ -3,21 +3,15 @@ import Box from "./Box.js";
 import Row from "./Row.js";
 import "./styles.css";
 
-export default function Grid({
-  gen,
-  setGen,
-  populated2dArray,
-  gridSize,
-  updateBox
-}) {
+export default function Grid({gen, setGen, populated2dArray, gridSize, updateBox}) {
+
   return (
     <section>
       <div
         className="Grid"
         style={{
-          display: "flex",
-          flexWrap: "wrap",
-          width: "600px",
+          display: "flex", flexWrap: "wrap",
+            width: "600px",
           height: "600px",
           border: "solid black 2rem",
           boxSizing: "border-box"
