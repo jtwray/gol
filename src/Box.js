@@ -54,7 +54,7 @@ export default function Box({
           (box === 0 && { color: `black` }))
       }}
       onClick={() => {
-        updateBox(populated2dArray, coli, ri);
+        updateBox(populated2dArray, ri,coli);
         setBoxIsAlive(!boxIsAlive);
       }}
     >

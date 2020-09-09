@@ -3,7 +3,7 @@ import Box from "./Box.js";
 import Row from "./Row.js";
 import "./styles.css";
 
-export default function Grid({ gen, setGen ,setPopulated2dArray,populated2dArray}) {
+export default function Controls({ gen, setGen ,setPopulated2dArray,populated2dArray}) {
   const [gridSize, setGridSize] = useState(20);
   let rowsLen = gridSize;
   let colsLen = gridSize;
@@ -19,18 +19,15 @@ useEffect(()=>{
 },[])
 
 
-  function updateCell(grid, row, col) {
-    for (c = 0; r < colsLen; c++) {
-      for (r = 0; r < rowsLen; r++) {
-        if (c == col && r == row)
-          if (grid[c][r] == 1) {
-            grid[c][r] = 0;
+  function updateCell(grid,r,c) {
+
+          if (grid[r][c] == 1) {
+            grid[r][c] = 0;
           }
-        if (grid[c][r] == 0) {
-          grid[c][r] = 1;
+        if (grid[r][c] == 0) {
+          grid[r][c] = 1;
         }
-      }
-    }
+      
   }
 
   //   let cell=null;
@@ -119,8 +116,8 @@ useEffect(()=>{
   // for i in preset array set i in grid to true or 1
   function setPreset(grid, preset) {
     let presetLen = preset.length;
-    let midPntCol = colsLen / 2;
-    let midPntRow = rowsLen / 2;
+    let midPntCol = Math.floor(colsLen / 2);
+    let midPntRow = Math.floor(rowsLen / 2);
     preset.map((p) => {
       let [x, y] = p;
       return (grid[x + midPntRow][y + midPntCol] = 1);
