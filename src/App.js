@@ -2,23 +2,38 @@ import React, { useState, useEffect } from "react";
 import Generations from "./Generations.js";
 import Controls from "./Controls";
 import Grid from "./Grid.js";
+import Row from "./Row.js";
 let tipURL =
   "https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#cite_note-1";
 
 export default function App() {
-
   const [gen, setGen] = useState(0);
-  
+
   let [populated2dArray, setPopulated2dArray] = useState();
-  
-  function updateBox(grid, c, r) {
-    console.log(populated2dArray[c][r],{c},{r});
-    grid[c][r] === 1 ? (grid[c][r] = 0) : (grid[c][r] = 1);
+  const [gridSize, setGridSize] = useState(20);
+  function updateBox(grid, r, c) {
+    console.log(populated2dArray[r][c], { r }, { c });
+    grid[r][c] === 1 ? (grid[c][r] = 0) : (grid[r][c] = 1);
+    let updatedCell=grid[r][c];
+
+    console.log({ updatedCell },"updatedCell",updatedCell);
+    console.table(populated2dArray)
+    setPopulated2dArray([
+      ...populated2dArray.map((row, i) =>
+      {
+        let newRow=[...row];
+        if(row!=r){return [...newRow]}else{return[...newRow,row[r]=updatedCell]}
+    //     return(
+    //   row != c ? [...row] : [...newRow, row[r] = updatedCell]
+      
+    // )
+  }) ]);
+    console.table(populated2dArray)
   }
 
   return (
     <>
-        <h1>The Game of Life</h1>
+      <h1>The Game of Life</h1>
       <section className="about">
         <h2>
           <p>
@@ -37,10 +52,13 @@ export default function App() {
             initial configuration and observing how it evolves.
           </p>
         </h2>
-        <Controls className="section--Controls"
+        <Controls
+          className="section--Controls"
           updateBox={updateBox}
           gen={gen}
           setGen={setGen}
+          gridSize={gridSize}
+          setGridSize={setGridSize}
           populated2dArray={populated2dArray}
           setPopulated2dArray={setPopulated2dArray}
         />
@@ -51,7 +69,8 @@ export default function App() {
           updateBox={updateBox}
           gen={gen}
           setGen={setGen}
-       
+          gridSize={gridSize}
+          setGridSize={setGridSize}
           populated2dArray={populated2dArray}
           setPopulated2dArray={setPopulated2dArray}
         />

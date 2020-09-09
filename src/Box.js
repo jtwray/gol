@@ -20,10 +20,12 @@ export default function Box({
       "boxRef.current.classList",
       boxRef.current.classList
     );
-    if (!boxIsAlive) {
-      boxRef.current.classList.add("liveCell");
-    }
     if (boxIsAlive) {
+      boxRef.current.classList.add("liveCell");
+      boxRef.current.textContent='1';
+      box=1;
+    }
+    if (!boxIsAlive) {
       boxRef.current.classList.remove("liveCell");
     }
   }
@@ -43,15 +45,7 @@ export default function Box({
       ref={boxRef}
       className="box"
       style={{
-        display: "inline-block",
-        textAlign: "center",
-        width: `${gridSize}`,
-        height: "100%",
-        color: "grey",
-        background: "yellow",
-        border: "black solid 1px",
-        ...((box === 1 && { color: "yellow", background: `black` }) ||
-          (box === 0 && { color: `black` }))
+        width: `${gridSize}`
       }}
       onClick={() => {
         updateBox(populated2dArray, ri,coli);

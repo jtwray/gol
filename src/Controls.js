@@ -3,14 +3,14 @@ import Box from "./Box.js";
 import Row from "./Row.js";
 import "./styles.css";
 
-export default function Controls({ gen, setGen ,setPopulated2dArray,populated2dArray}) {
-  const [gridSize, setGridSize] = useState(20);
+export default function Controls({ gen, setGen ,gridSize,setGridSize,setPopulated2dArray,populated2dArray}) {
+
   let rowsLen = gridSize;
   let colsLen = gridSize;
   const [intervalState, setIntervalState] = useState(null);
   const [isRunning, setisRunning] = useState(false);
   const [isPreset, setisPreset] = useState("clear");
-const[Box,setBox]=useState(null)
+  const [Box,setBox]=useState(null)
 
 useEffect(()=>{
   setPopulated2dArray(
