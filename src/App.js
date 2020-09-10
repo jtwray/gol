@@ -10,7 +10,7 @@ export default function App() {
   const [gen, setGen] = useState(0);
 
   let [populated2dArray, setPopulated2dArray] = useState();
-  const [gridSize, setGridSize] = useState(20);
+  const [gridSize, setGridSize] = useState(50);
 
   function updateBox(grid, r, c) {
     console.log(populated2dArray[r][c], { r }, { c });
