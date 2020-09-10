@@ -10,8 +10,9 @@ export default function Grid({gen, setGen, populated2dArray, gridSize, updateBox
       <div
         className="Grid"
         style={{
-          display: "flex", flexWrap: "wrap",
-            width: "600px",
+          display: "flex",
+          flexWrap: "wrap",
+          width: "600px",
           height: "600px",
           border: "solid black 2rem",
           boxSizing: "border-box"

@@ -3,8 +3,7 @@ import Box from "./Box.js";
 
 export default function Row({  ri, gridSize,row,populated2dArray,updateBox }) {
   let rowHeight = 100 / gridSize;
-  console.log({rowHeight})
-  console.log({gridSize})
+
   return (
     <div
       style={{

@@ -9,53 +9,19 @@ export default function Box({
   populated2dArray,
   updateBox
 }) {
-  const boxRef = React.useRef();
-  const [boxIsAlive, setBoxIsAlive] = useState(false);
   let boxWidth = 100 / gridSize;
-
-  function checkBoxColor(box) {
-    console.log(
-      "boxColorline17",
-      { box },
-      "boxRef.current.classList",
-      boxRef.current.classList
-    );
-    if (box === 1) {
-      boxRef.current.classList.add("liveCell");
-    }
-    if (box === 0) {
-      boxRef.current.classList.remove("liveCell");
-    }
-  }
-  useEffect(() => {
-
-   if(box===1) {
-      boxRef.current.classList.add("liveCell");
-      console.log("livebox")
-    }    
-    if (box === 0) {
-      boxRef.current.classList.remove("liveCell");
-    }
-  }, [box, boxIsAlive]);
-
+let fontSize=`${boxWidth*20}%`;
   return (
     <div
-      ref={boxRef}
       className="box"
-      style={{
-        display: "inline-block",
-        textAlign: "center",
-        width: `${gridSize}`,
-        height: "100%",
-        color: "grey",
-        background: "yellow",
-        border: "black solid 1px",
-        ...((box === 1 && { color: "yellow", background: `black` }) ||
-          (box === 0 && { color: `black` }))
+      style={{fontSize,
+        width: `${boxWidth}`,
+        ...(box===1&&{background:'black',color:'yellow'}),
+        ...(box===0&&{background:'yellow',color:'black'})
       }}
       onClick={() => {
         updateBox(populated2dArray, ri,coli);
-        setBoxIsAlive(!boxIsAlive);
+
       }}
     >
       {box}

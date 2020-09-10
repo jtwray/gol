@@ -3,49 +3,34 @@ import Box from "./Box.js";
 import Row from "./Row.js";
 import "./styles.css";
 
-export default function Controls({ gen, setGen ,setPopulated2dArray,populated2dArray}) {
-  const [gridSize, setGridSize] = useState(20);
+export default function Controls({
+  gen,
+  setGen,
+  gridSize,
+  setGridSize,
+  setPopulated2dArray,
+  populated2dArray,
+}) {
   let rowsLen = gridSize;
   let colsLen = gridSize;
-  const [intervalState, setIntervalState] = useState(null);
+  const [intervalState, setIntervalState] = useState(500);
   const [isRunning, setisRunning] = useState(false);
   const [isPreset, setisPreset] = useState("clear");
-const[Box,setBox]=useState(null)
+  const [Box, setBox] = useState(null);
 
-useEffect(()=>{
-  setPopulated2dArray(
-    populateClearGrid(createDoubleArr(rowsLen, colsLen))
-  );
-},[])
+  useEffect(() => {
+    setPopulated2dArray(populateClearGrid(createDoubleArr(rowsLen, colsLen)));
+  }, [gridSize]);
 
-
-  function updateCell(grid,r,c) {
-
-          if (grid[r][c] == 1) {
-            grid[r][c] = 0;
-          }
-        if (grid[r][c] == 0) {
-          grid[r][c] = 1;
-        }
-      
+  function updateCell(grid, r, c) {
+    if (grid[r][c] == 1) {
+      grid[r][c] = 0;
+    }
+    if (grid[r][c] == 0) {
+      grid[r][c] = 1;
+    }
   }
 
-  //   let cell=null;
-  //   let fnRowsLen=rowsLen
-  //   let fnColsLen=colsLen
-  //   let root
-  // while(cell=null){
-  //  root=fnRowsLen/2;
-  // if (root>r){
-  // fnRowsLen=-root
-  // }
-  // if (root<r){
-  // fnRowsLen-=root/2
-  // }
-  // if (root=r){}
-  // }
-
-  // }
   /** create a 2dimensional array */
   function createDoubleArr(rowsLen, colsLen) {
     let arr = Array.from({ length: rowsLen });
@@ -66,6 +51,7 @@ useEffect(()=>{
   }
   function runGame() {
     setisRunning(true);
+    console.log({intervalState},{gridSize},{colsLen},{rowsLen})
   }
 
   // this.stopGame===
@@ -84,7 +70,7 @@ useEffect(()=>{
   function clearGrid() {
     populateClearGrid(populated2dArray);
     setGen(0);
-    setGridSize(gridSize)
+    setGridSize(gridSize);
     console.log("line29 Grid Cleared");
   }
 
@@ -97,7 +83,7 @@ useEffect(()=>{
     }
     setPopulated2dArray(rando);
     setGen(0);
-    setGridSize(gridSize)
+    setGridSize(gridSize);
     return rando;
   }
 
@@ -108,7 +94,11 @@ useEffect(()=>{
     );
     console.log("line70 chosen", chosen[0].data);
     console.log("line69", event.target.value);
-    if (event.target.value=="Gosper Glider Gun"&&gridSize<35){return alert("Grid must be at least 40cells wide to createa  The Gosper Glider Gun")}
+    if (event.target.value == "Gosper Glider Gun" && gridSize < 35) {
+      return alert(
+        "Grid must be at least 40cells wide to createa  The Gosper Glider Gun"
+      );
+    }
     setPreset(populated2dArray, chosen[0].data);
   }
   //loop through the grid
@@ -129,6 +119,23 @@ useEffect(()=>{
   //create a dropdown with options for each preset
   let presetCollection = [
     { name: "Clear", data: [] },
+    {
+      name: "Phoenix",
+      data: [
+        [0, 5],
+        [1, 3],
+        [1, 5],
+        [2, 7],
+        [3, 1],
+        [3, 2],
+        [4, 7],
+        [4, 8],
+        [5, 2],
+        [6, 4],
+        [6, 6],
+        [7, 4],
+      ],
+    },
     {
       name: "XKCD RIP John Conway  ",
       data: [
@@ -152,8 +159,8 @@ useEffect(()=>{
         [2, 7],
         [4, 7],
         [2, 8],
-        [4, 8]
-      ]
+        [4, 8],
+      ],
     },
     {
       name: "Glider",
@@ -162,8 +169,8 @@ useEffect(()=>{
         [2, 1],
         [2, 2],
         [1, 2],
-        [0, 2]
-      ]
+        [0, 2],
+      ],
     },
     {
       name: "Small Exploder",
@@ -174,8 +181,8 @@ useEffect(()=>{
         [1, 1],
         [1, 3],
         [2, 1],
-        [2, 2]
-      ]
+        [2, 2],
+      ],
     },
     {
       name: "Exploder",
@@ -191,8 +198,8 @@ useEffect(()=>{
         [4, 1],
         [4, 2],
         [4, 3],
-        [4, 4]
-      ]
+        [4, 4],
+      ],
     },
     {
       name: "10 Cell Row",
@@ -206,8 +213,8 @@ useEffect(()=>{
         [6, 0],
         [7, 0],
         [8, 0],
-        [9, 0]
-      ]
+        [9, 0],
+      ],
     },
     {
       name: "Lightweight spaceship",
@@ -220,8 +227,8 @@ useEffect(()=>{
         [3, 3],
         [4, 0],
         [4, 1],
-        [4, 2]
-      ]
+        [4, 2],
+      ],
     },
     {
       name: "Tumbler",
@@ -247,8 +254,8 @@ useEffect(()=>{
         [5, 5],
         [6, 3],
         [6, 4],
-        [6, 5]
-      ]
+        [6, 5],
+      ],
     },
     {
       name: "Gosper Glider Gun",
@@ -287,9 +294,9 @@ useEffect(()=>{
         [35, 8],
         [35, 9],
         [36, 7],
-        [37, 8]
-      ]
-    }
+        [37, 8],
+      ],
+    },
   ];
   let presetCollectionLen = presetCollection.length;
 
@@ -411,7 +418,7 @@ useEffect(()=>{
   }
 
   let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
-  let gridSizeDL = [10, 15, 20, 25, 30, 35, 40];
+  let gridSizeDL = [25, 50, 75, 100, 125, 150, 175];
   useEffect(() => {
     setPopulated2dArray(populateClearGrid(createDoubleArr(rowsLen, colsLen)));
   }, [gridSize]);
@@ -421,8 +428,7 @@ useEffect(()=>{
     <>
       <h2>generation:{gen}</h2>
 
-
-      <div className="slider" >
+      <div className="slider">
         <form>
           <label>speed:{intervalState || "stopped"}</label>
           <div
@@ -430,7 +436,7 @@ useEffect(()=>{
             style={{
               display: "inline",
               writingMode: "vertical-lr",
-              maxWidth: "100%"
+              maxWidth: "100%",
             }}
           >
             {dl.map((option, i) => (
@@ -442,7 +448,7 @@ useEffect(()=>{
           <input
             type="range"
             step="250"
-            value={intervalState || undefined}
+            value={intervalState || 500}
             min="250"
             max="2000"
             list="lifeCycleSpeedRange"
@@ -464,7 +470,7 @@ useEffect(()=>{
             style={{
               display: "inline",
               writingMode: "vertical-lr",
-              maxWidth: "100%"
+              maxWidth: "100%",
             }}
           >
             {gridSizeDL.map((option, i) => (
@@ -475,10 +481,10 @@ useEffect(()=>{
           </div>
           <input
             type="range"
-            step="5"
-            value={gridSize || +20}
-            min="10"
-            max="40"
+            step="25"
+            value={gridSize || 25}
+            min="25"
+            max="175"
             list="gridSizeRange"
             id="gridSizeRangeSlide"
             onChange={(event) => handleGridSizeChange(event)}
@@ -503,7 +509,7 @@ useEffect(()=>{
           borderRadius: "14px",
           textShadow: "-.74px .74px 2.7px green,-.77px -1.47px .73px white",
           boxShadow:
-            "-.7px 1.7px .7px 1px black, -1.7px 1.7px 1.7px .17px green"
+            "-.7px 1.7px .7px 1px black, -1.7px 1.7px 1.7px .17px green",
         }}
         onClick={() => runGame()}
       >
@@ -521,7 +527,7 @@ useEffect(()=>{
           borderRadius: "14px",
           textShadow: "-.74px .74px 2.7px green,-.77px -1.47px .73px white",
           boxShadow:
-            "-.7px 1.7px .7px 1px black, -1.7px 1.7px 1.7px .17px green"
+            "-.7px 1.7px .7px 1px black, -1.7px 1.7px 1.7px .17px green",
         }}
         onClick={() => runSingleStep()}
       >
@@ -540,7 +546,7 @@ useEffect(()=>{
           borderRadius: "14px",
           textShadow: "-.74px .74px 2.7px darkred,-.77px -.7px .74px white",
           boxShadow:
-            "-.7px 1.7px .7px .1px black, -1.7px 1.7px 1.7px .17px darkred"
+            "-.7px 1.7px .7px .1px black, -1.7px 1.7px 1.7px .17px darkred",
         }}
         onClick={() => stopGame()}
       >
@@ -559,7 +565,7 @@ useEffect(()=>{
           height: "100px",
           padding: "1rem,2rem",
           margin: "1rem",
-          borderRadius: "14px"
+          borderRadius: "14px",
         }}
         onClick={() => clearGrid()}
       >
@@ -579,7 +585,7 @@ useEffect(()=>{
           height: "150px",
           padding: "1rem,2rem",
           margin: "1rem",
-          borderRadius: "14px"
+          borderRadius: "14px",
         }}
       >
         <span>Random Grid</span>

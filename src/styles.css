@@ -81,9 +81,15 @@ div .sliderBox {
 }
 
 .box {
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  height: 100%;
+  border: black solid 1px;
   background: yellow;
   color: black;
 }
+
 .liveCell {
   background: black;
   color: yellow;
