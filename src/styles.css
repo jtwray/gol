@@ -81,9 +81,10 @@ div .sliderBox {
 }
 
 .box {
-  /* display: inline-block; */
+  display: flex;
+  justify-content:center;
+  align-items: center;
   height: 100%;
-  text-align: center;
   border: black solid 1px;
   background: yellow;
   color: black;
