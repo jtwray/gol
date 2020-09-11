@@ -1,6 +1,12 @@
 import React from "react";
 
-export default function ClearButton({ clearGrid }) {
+export default function ClearButton({ populateClearGrid,populated2dArray,setGen, setGridSize,gridSize }) {
+  
+  function clearGrid() {
+    populateClearGrid(populated2dArray);
+    setGen(0);
+    setGridSize(gridSize);
+  }
   return (
    
 <button

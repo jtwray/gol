@@ -3,13 +3,13 @@ import Box from "../Box.js";
 import Row from "../Row.js";
 import "../styles.css";
 import StartButton from "./buttons/StartButton.js";
-import ClearButton from './buttons/ClearButton.js'
-import RandomButton from './buttons/RandomButton.js'
+import ClearButton from "./buttons/ClearButton.js";
+import RandomButton from "./buttons/RandomButton.js";
 import StopButton from "./buttons/StopButton.js";
 import SingleStepButton from "./buttons/SingleStepButton";
-import SizeSlider from "./sliders/SizeSlider"
-import SpeedSlider from "./sliders/SpeedSlider"
-import Presets from './Presets.js'
+import SizeSlider from "./sliders/SizeSlider";
+import SpeedSlider from "./sliders/SpeedSlider";
+import Presets from "./Presets.js";
 
 export default function Controls({
   gen,
@@ -56,257 +56,7 @@ export default function Controls({
     }
     return grid;
   }
-  function runGame() {
-    setisRunning(true);
-    console.log({intervalState},{gridSize},{colsLen},{rowsLen})
-  }
 
-  // this.stopGame===
-  function stopGame() {
-    setisRunning(false);
-    setIntervalState(null);
-  }
-
-  // this.handleIntervalChange===
-
-
-
-  function clearGrid() {
-    populateClearGrid(populated2dArray);
-    setGen(0);
-    setGridSize(gridSize);
-    console.log("line29 Grid Cleared");
-  }
-
-  /**  populate the 2dimensional Array with random 1s & 0s */
-  function randomizeGrid(rando) {
-    for (let c = 0; c < colsLen; c++) {
-      for (let r = 0; r < rowsLen; r++) {
-        rando[r][c] = Math.floor(Math.random() * 2);
-      }
-    }
-    setPopulated2dArray(rando);
-    setGen(0);
-    setGridSize(gridSize);
-    return rando;
-  }
-
- {
-   /*
-    function handleSelectPreset(event) {
-    // setisPreset(event.target.value)
-    let chosen = presetCollection.filter(
-      (preset) => preset.name == event.target.value
-    );
-    console.log("line70 chosen", chosen[0].data);
-    console.log("line69", event.target.value);
-    if (event.target.value == "Gosper Glider Gun" && gridSize < 35) {
-      return alert(
-        "Grid must be at least 40cells wide to create The Gosper Glider Gun"
-      );
-    }
-    setPreset(populated2dArray, chosen[0].data);
-  }
-  //loop through the grid
-  //loop through the preset array of objects
-  // for i in preset array set i in grid to true or 1
-  function setPreset(grid, preset) {
-    let presetLen = preset.length;
-    let midPntCol = Math.floor(colsLen / 2);
-    let midPntRow = Math.floor(rowsLen / 2);
-    preset.map((p) => {
-      let [x, y] = p;
-      return (grid[x + midPntRow][y + midPntCol] = 1);
-    });
-  }
-  //create a button for each preset
-  // clicking the button will setPopulated2dArray to the preset selected
-  // calls setPreset(currentGrid,selectedPreset)
-  //create a dropdown with options for each preset
-  let presetCollection = [
-    { name: "Clear", data: [] },
-    {
-      name: "Phoenix",
-      data: [
-        [0, 5],
-        [1, 3],
-        [1, 5],
-        [2, 7],
-        [3, 1],
-        [3, 2],
-        [4, 7],
-        [4, 8],
-        [5, 2],
-        [6, 4],
-        [6, 6],
-        [7, 4],
-      ],
-    },
-    {
-      name: "XKCD RIP John Conway  ",
-      data: [
-        [2, 0],
-        [3, 0],
-        [4, 0],
-        [2, 1],
-        [4, 1],
-        [2, 2],
-        [4, 2],
-        [3, 3],
-        [0, 4],
-        [2, 4],
-        [3, 4],
-        [4, 4],
-        [1, 5],
-        [3, 5],
-        [5, 5],
-        [3, 6],
-        [6, 6],
-        [2, 7],
-        [4, 7],
-        [2, 8],
-        [4, 8],
-      ],
-    },
-    {
-      name: "Glider",
-      data: [
-        [1, 0],
-        [2, 1],
-        [2, 2],
-        [1, 2],
-        [0, 2],
-      ],
-    },
-    {
-      name: "Small Exploder",
-      data: [
-        [0, 1],
-        [0, 2],
-        [1, 0],
-        [1, 1],
-        [1, 3],
-        [2, 1],
-        [2, 2],
-      ],
-    },
-    {
-      name: "Exploder",
-      data: [
-        [0, 0],
-        [0, 1],
-        [0, 2],
-        [0, 3],
-        [0, 4],
-        [2, 0],
-        [2, 4],
-        [4, 0],
-        [4, 1],
-        [4, 2],
-        [4, 3],
-        [4, 4],
-      ],
-    },
-    {
-      name: "10 Cell Row",
-      data: [
-        [0, 0],
-        [1, 0],
-        [2, 0],
-        [3, 0],
-        [4, 0],
-        [5, 0],
-        [6, 0],
-        [7, 0],
-        [8, 0],
-        [9, 0],
-      ],
-    },
-    {
-      name: "Lightweight spaceship",
-      data: [
-        [0, 1],
-        [0, 3],
-        [1, 0],
-        [2, 0],
-        [3, 0],
-        [3, 3],
-        [4, 0],
-        [4, 1],
-        [4, 2],
-      ],
-    },
-    {
-      name: "Tumbler",
-      data: [
-        [0, 3],
-        [0, 4],
-        [0, 5],
-        [1, 0],
-        [1, 1],
-        [1, 5],
-        [2, 0],
-        [2, 1],
-        [2, 2],
-        [2, 3],
-        [2, 4],
-        [4, 0],
-        [4, 1],
-        [4, 2],
-        [4, 3],
-        [4, 4],
-        [5, 0],
-        [5, 1],
-        [5, 5],
-        [6, 3],
-        [6, 4],
-        [6, 5],
-      ],
-    },
-    {
-      name: "Gosper Glider Gun",
-      data: [
-        [0, 2],
-        [0, 3],
-        [1, 2],
-        [1, 3],
-        [8, 3],
-        [8, 4],
-        [9, 2],
-        [9, 4],
-        [10, 2],
-        [10, 3],
-        [16, 4],
-        [16, 5],
-        [16, 6],
-        [17, 4],
-        [18, 5],
-        [22, 1],
-        [22, 2],
-        [23, 0],
-        [23, 2],
-        [24, 0],
-        [24, 1],
-        [24, 12],
-        [24, 13],
-        [25, 12],
-        [25, 14],
-        [26, 12],
-        [34, 0],
-        [34, 1],
-        [35, 0],
-        [35, 1],
-        [35, 7],
-        [35, 8],
-        [35, 9],
-        [36, 7],
-        [37, 8],
-      ],
-    },
-  ];
-  let presetCollectionLen = presetCollection.length;
-  */
-}
   /** return both an exact clone of and the original randomly populated, 2dimensional Array  */
   function copyDblArr(arr) {
     let newArr = [...arr.map((r) => [...r])];
@@ -327,7 +77,7 @@ export default function Controls({
     return liveCNT;
   }
 
-  function checkGrid() {
+  function checkGridComplete() {
     let [newGrid, prevGrid] = updateCells();
     let sameCells = [];
     let sameCellsLen = 0;
@@ -377,7 +127,7 @@ export default function Controls({
   }
 
   function updateGrid() {
-    let [newGrid] = checkGrid();
+    let [newGrid] = checkGridComplete();
     setPopulated2dArray(newGrid);
     setGen(gen + 1);
   }
@@ -420,13 +170,6 @@ export default function Controls({
 
   useInterval(() => updateGrid(), intervalState);
 
-  // function handleGridSizeChange(event) {
-  //   setGridSize(event.target.value);
-  // }
-
-  // let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
-  // let gridSizeDL = [25, 50, 75, 100, 125, 150, 175];
-
   useEffect(() => {
     setPopulated2dArray(populateClearGrid(createDoubleArr(rowsLen, colsLen)));
   }, [gridSize]);
@@ -435,176 +178,38 @@ export default function Controls({
   return (
     <>
       <h2>generation:{gen}</h2>
-
-     {/*
-       <div className="slider">
-        <form>
-          <label>speed:{intervalState || "stopped"}</label>
-          <div
-            className="sliderBox"
-            style={{
-              display: "inline",
-              writingMode: "vertical-lr",
-              maxWidth: "100%",
-            }}
-          >
-            {dl.map((option, i) => (
-              <option key={`${option}_${i}`} value={option}>
-                {option}
-              </option>
-            ))}
-          </div>
-          <input
-            type="range"
-            step="250"
-            value={intervalState || 500}
-            min="250"
-            max="2000"
-            list="lifeCycleSpeedRange"
-            id="lifeCyleRangeSpeedSlide"
-            onChange={(event) => handleIntervalSlideChange(event)}
-          />
-          <datalist
-            id="lifeCycleSpeedRange"
-            name="lifeCycleSpeedRange"
-            type="datalist"
-          ></datalist>
-        </form>
-      </div>
-            */
-           }
-{
-  /*  
-      <div className="slider" width="300px">
-        <form>
-          <label>grid size: {gridSize || "stopped"}</label>
-          <div
-            className="sliderBox"
-            style={{
-              display: "inline",
-              writingMode: "vertical-lr",
-              maxWidth: "100%",
-            }}
-          >
-            {gridSizeDL.map((option, i) => (
-              <option key={`${option}_${i}`} value={option}>
-                {option}
-              </option>
-            ))}
-          </div>
-          <input
-            type="range"
-            step="25"
-            value={gridSize || 25}
-            min="25"
-            max="175"
-            list="gridSizeRange"
-            id="gridSizeRangeSlide"
-            onChange={(event) => handleGridSizeChange(event)}
-          />
-          <datalist
-            id="gridSizeRange"
-            name="gridSizeRange"
-            type="datalist"
-          ></datalist>
-        </form>
-      </div>
-            */
-           }
-          <SpeedSlider intervalState={intervalState} setIntervalState={setIntervalState}/>
-          <SizeSlider gridSize={gridSize} setGridSize={setGridSize}/>
-          <StartButton runGame={runGame}/>
-          <SingleStepButton runSingleStep={runSingleStep}/>
-          <StopButton stopGame={stopGame}/>
-          <ClearButton clearGrid={clearGrid}/>
-          <RandomButton randomizeGrid={randomizeGrid} populated2dArray={populated2dArray}/>
-          <Presets populated2dArray={populated2dArray} gridSize={gridSize} colsLen={colsLen} rowsLen={rowsLen}/>
-{/*   
-     <button
-      style={{
-          color: "firebrick",
-          backgroundColor: "firebrick",
-          fontSize: "3rem",
-          width: "275px",
-          height: "100px",
-          padding: "1rem,2rem",
-          margin: "1rem",
-          borderRadius: "14px",
-          textShadow: "-.74px .74px 2.7px darkred,-.77px -.7px .74px white",
-          boxShadow:
-            "-.7px 1.7px .7px .1px black, -1.7px 1.7px 1.7px .17px darkred",
-        }}
-        onClick={() => stopGame()}
-      >
-        <span>Stop</span>
-      </button>
-    */}
-
-{ 
-  /*     <button
-        style={{
-          color: "gold",
-          boxShadow: "1px 1px 1px 1px white,-1px -1px 1px 1px black",
-          border: "solid 3px black",
-          backgroundColor: "gold",
-          textShadow: "-.74px -.74px .4px white,-.74px .74px 2.74px black",
-          fontSize: "3rem",
-          width: "275px",
-          height: "100px",
-          padding: "1rem,2rem",
-          margin: "1rem",
-          borderRadius: "14px",
-        }}
-        onClick={() => clearGrid()}
-      >
-        <span>Clear</span>
-      </button>
-      */
-     }
-
-{ 
-  /*     <button
-        onClick={() => randomizeGrid(populated2dArray)}
-        style={{
-          color: "gold",
-          boxShadow: "1px 1px 1px 1px white,-1px -1px 1px 1px black",
-          border: "solid 3px black",
-          backgroundColor: "gold",
-          textShadow: ".74px .74px 2.74px black,-.74px -.74px .74px white",
-          fontSize: "3rem",
-          width: "300px",
-          height: "150px",
-          padding: "1rem,2rem",
-          margin: "1rem",
-          borderRadius: "14px",
-        }}
-      >
-        <span>Random Grid</span>
-      </button>
-      */
-     }
-{
-  /*
-        <section>
-        <h2>Presets</h2>
-        <select onChange={(e) => handleSelectPreset(e)}>
-          {
-            // for(let p=0;p<presetCollectionLen; p++){
-            presetCollection.map((preset) => (
-              <option
-                name={preset.name}
-                key={`${preset.name}__${presetCollection.indexOf(preset)}`}
-                value={preset.name}
-              >
-                {preset.name}
-              </option>
-            ))
-          }
-          }
-        </select>
-      </section>
-        */
-       }
+      <SpeedSlider
+        intervalState={intervalState}
+        setIntervalState={setIntervalState}
+      />
+      <SizeSlider gridSize={gridSize} setGridSize={setGridSize} />
+      <StartButton setisRunning={setisRunning} />
+      <SingleStepButton runSingleStep={runSingleStep} />
+      <StopButton
+        setisRunning={setisRunning}
+        setIntervalState={setIntervalState}
+      />
+      <ClearButton
+        populateClearGrid={populateClearGrid}
+        populated2dArray={populated2dArray}
+        setGen={setGen}
+        setGridSize={setGridSize}
+        gridSize={gridSize}
+      />
+      <RandomButton
+        colsLen={colsLen}
+        rowsLen={rowsLen}
+        setPopulated2dArray={setPopulated2dArray}
+        setGen={setGen}
+        populated2dArray={populated2dArray}
+        populated2dArray={populated2dArray}
+      />
+      <Presets
+        populated2dArray={populated2dArray}
+        gridSize={gridSize}
+        colsLen={colsLen}
+        rowsLen={rowsLen}
+      />
     </>
   );
 }

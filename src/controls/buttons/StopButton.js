@@ -1,6 +1,11 @@
 import React from "react";
 
-export default function StopButton({ stopGame }) {
+export default function StopButton({ setisRunning, setIntervalState }) {
+  // this.stopGame===
+  function stopGame() {
+    setisRunning(false);
+    setIntervalState(null);
+  }
   return (
     <>
       <button
