@@ -1,13 +1,13 @@
 import React from "react";
 
 export default function SpeedSlider({ intervalState, setIntervalState }) {
-    
+
   function handleIntervalSlideChange(event) {
     setIntervalState(event.target.value);
     console.log({ intervalState });
   }
   
-  let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
+  let dl = [250, 500, 750, 1000, 1250, 1500, 1750, 2000];
   return (
     <>
       <div className="slider">
