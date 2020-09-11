@@ -3,7 +3,10 @@ import Box from "../Box.js";
 import Row from "../Row.js";
 import "../styles.css";
 import StartButton from "./buttons/StartButton.js";
-import SingleStepButton from "./buttons/SingeStepButton";
+import ClearButton from './buttons/ClearButton.js'
+import RandomButton from './buttons/RandomButton.js'
+import StopButton from "./buttons/StopButton.js";
+import SingleStepButton from "./buttons/SingleStepButton";
 import SizeSlider from "./sliders/SizeSlider"
 import SpeedSlider from "./sliders/SpeedSlider"
 
@@ -509,7 +512,11 @@ export default function Controls({
           <SizeSlider gridSize={gridSize} setGridSize={setGridSize}/>
           <StartButton runGame={runGame}/>
           <SingleStepButton runSingleStep={runSingleStep}/>
-      <button
+          <StopButton stopGame={stopGame}/>
+          <ClearButton clearGrid={clearGrid}/>
+          <RandomButton randomizeGrid={randomizeGrid} populated2dArray={populated2dArray}/>
+{/*   
+     <button
       style={{
           color: "firebrick",
           backgroundColor: "firebrick",
@@ -527,8 +534,10 @@ export default function Controls({
       >
         <span>Stop</span>
       </button>
+    */}
 
-      <button
+{ 
+  /*     <button
         style={{
           color: "gold",
           boxShadow: "1px 1px 1px 1px white,-1px -1px 1px 1px black",
@@ -546,8 +555,11 @@ export default function Controls({
       >
         <span>Clear</span>
       </button>
+      */
+     }
 
-      <button
+{ 
+  /*     <button
         onClick={() => randomizeGrid(populated2dArray)}
         style={{
           color: "gold",
@@ -565,6 +577,8 @@ export default function Controls({
       >
         <span>Random Grid</span>
       </button>
+      */
+     }
       <section>
         <h2>Presets</h2>
         <select onChange={(e) => handleSelectPreset(e)}>

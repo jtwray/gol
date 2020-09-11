@@ -1,24 +1,24 @@
 import React from 'react'
 
-export default function StartButton({runGame}){ return(
+export default function RandomButton({randomizeGrid,populated2dArray}){ return(
 
 
-    <>     <button
+    <button
+    onClick={() => randomizeGrid(populated2dArray)}
     style={{
-      color: "lightgreen",
-      backgroundColor: "lightgreen",
+      color: "gold",
+      boxShadow: "1px 1px 1px 1px white,-1px -1px 1px 1px black",
+      border: "solid 3px black",
+      backgroundColor: "gold",
+      textShadow: ".74px .74px 2.74px black,-.74px -.74px .74px white",
       fontSize: "3rem",
-      width: "275px",
-      height: "100px",
+      width: "300px",
+      height: "150px",
       padding: "1rem,2rem",
       margin: "1rem",
       borderRadius: "14px",
-      textShadow: "-.74px .74px 2.7px green,-.77px -1.47px .73px white",
-      boxShadow:
-        "-.7px 1.7px .7px 1px black, -1.7px 1.7px 1.7px .17px green",
     }}
-    onClick={() => runGame()}
   >
-    <span>Start</span>
-  </button></>
+    <span>Random Grid</span>
+  </button>
 )}
