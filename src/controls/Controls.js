@@ -4,6 +4,7 @@ import Row from "../Row.js";
 import "../styles.css";
 import StartButton from "./buttons/StartButton.js";
 import SingleStepButton from "./buttons/SingeStepButton";
+import SizeSlider from "./sliders/SizeSlider"
 
 export default function Controls({
   gen,
@@ -415,12 +416,13 @@ export default function Controls({
 
   useInterval(() => updateGrid(), intervalState);
 
-  function handleGridSizeChange(event) {
-    setGridSize(event.target.value);
-  }
+  // function handleGridSizeChange(event) {
+  //   setGridSize(event.target.value);
+  // }
 
   let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
-  let gridSizeDL = [25, 50, 75, 100, 125, 150, 175];
+  // let gridSizeDL = [25, 50, 75, 100, 125, 150, 175];
+
   useEffect(() => {
     setPopulated2dArray(populateClearGrid(createDoubleArr(rowsLen, colsLen)));
   }, [gridSize]);
@@ -464,6 +466,8 @@ export default function Controls({
           ></datalist>
         </form>
       </div>
+{
+  /*  
       <div className="slider" width="300px">
         <form>
           <label>grid size: {gridSize || "stopped"}</label>
@@ -498,6 +502,9 @@ export default function Controls({
           ></datalist>
         </form>
       </div>
+            */
+           }
+           <SizeSlider gridSize={gridSize} setGridSize={setGridSize}/>
 <StartButton runGame={runGame}/>
 
 <SingleStepButton runSingleStep={runSingleStep}/>
