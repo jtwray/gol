@@ -1,24 +1,49 @@
-import React from 'react'
+import React from "react";
 
-export default function StartButton({runGame}){ return(
-
-
-    <>     <button
-    style={{
-      color: "lightgreen",
-      backgroundColor: "lightgreen",
-      fontSize: "3rem",
-      width: "275px",
-      height: "100px",
-      padding: "1rem,2rem",
-      margin: "1rem",
-      borderRadius: "14px",
-      textShadow: "-.74px .74px 2.7px green,-.77px -1.47px .73px white",
-      boxShadow:
-        "-.7px 1.7px .7px 1px black, -1.7px 1.7px 1.7px .17px green",
-    }}
-    onClick={() => runGame()}
-  >
-    <span>Start</span>
-  </button></>
-)}
+export default function SpeedSlider({ intervalState, setIntervalState }) {
+    
+  function handleIntervalSlideChange(event) {
+    setIntervalState(event.target.value);
+    console.log({ intervalState });
+  }
+  
+  let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
+  return (
+    <>
+      <div className="slider">
+        <form>
+          <label>speed:{intervalState || "stopped"}</label>
+          <div
+            className="sliderBox"
+            style={{
+              display: "inline",
+              writingMode: "vertical-lr",
+              maxWidth: "100%",
+            }}
+          >
+            {dl.map((option, i) => (
+              <option key={`${option}_${i}`} value={option}>
+                {option}
+              </option>
+            ))}
+          </div>
+          <input
+            type="range"
+            step="250"
+            value={intervalState || 500}
+            min="250"
+            max="2000"
+            list="lifeCycleSpeedRange"
+            id="lifeCyleRangeSpeedSlide"
+            onChange={(event) => handleIntervalSlideChange(event)}
+          />
+          <datalist
+            id="lifeCycleSpeedRange"
+            name="lifeCycleSpeedRange"
+            type="datalist"
+          ></datalist>
+        </form>
+      </div>
+    </>
+  );
+}

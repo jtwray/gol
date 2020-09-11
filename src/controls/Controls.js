@@ -5,6 +5,7 @@ import "../styles.css";
 import StartButton from "./buttons/StartButton.js";
 import SingleStepButton from "./buttons/SingeStepButton";
 import SizeSlider from "./sliders/SizeSlider"
+import SpeedSlider from "./sliders/SpeedSlider"
 
 export default function Controls({
   gen,
@@ -65,10 +66,7 @@ export default function Controls({
 
   // this.handleIntervalChange===
 
-  function handleIntervalSlideChange(event) {
-    setIntervalState(event.target.value);
-    console.log({ intervalState });
-  }
+
 
   function clearGrid() {
     populateClearGrid(populated2dArray);
@@ -420,7 +418,7 @@ export default function Controls({
   //   setGridSize(event.target.value);
   // }
 
-  let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
+  // let dl = [500, 750, 1000, 1250, 1500, 1750, 2000];
   // let gridSizeDL = [25, 50, 75, 100, 125, 150, 175];
 
   useEffect(() => {
@@ -432,7 +430,8 @@ export default function Controls({
     <>
       <h2>generation:{gen}</h2>
 
-      <div className="slider">
+     {/*
+       <div className="slider">
         <form>
           <label>speed:{intervalState || "stopped"}</label>
           <div
@@ -466,6 +465,8 @@ export default function Controls({
           ></datalist>
         </form>
       </div>
+            */
+           }
 {
   /*  
       <div className="slider" width="300px">
@@ -504,10 +505,10 @@ export default function Controls({
       </div>
             */
            }
-           <SizeSlider gridSize={gridSize} setGridSize={setGridSize}/>
-<StartButton runGame={runGame}/>
-
-<SingleStepButton runSingleStep={runSingleStep}/>
+          <SpeedSlider intervalState={intervalState} setIntervalState={setIntervalState}/>
+          <SizeSlider gridSize={gridSize} setGridSize={setGridSize}/>
+          <StartButton runGame={runGame}/>
+          <SingleStepButton runSingleStep={runSingleStep}/>
       <button
       style={{
           color: "firebrick",
