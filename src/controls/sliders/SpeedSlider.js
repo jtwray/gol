@@ -12,7 +12,7 @@ export default function SpeedSlider({ intervalState, setIntervalState }) {
     <>
       <div className="slider">
         <form>
-          <label>speed:{intervalState || "stopped"}</label>
+          <label for="lifeCycleRangeSpeedSlide"> speed:{intervalState || "stopped"}</label>
           <div
             className="sliderBox"
             style={{
@@ -35,6 +35,7 @@ export default function SpeedSlider({ intervalState, setIntervalState }) {
             max="2000"
             list="lifeCycleSpeedRange"
             id="lifeCyleRangeSpeedSlide"
+            name="lifeCyleRangeSpeedSlide"
             onChange={(event) => handleIntervalSlideChange(event)}
           />
           <datalist
