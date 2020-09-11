@@ -9,6 +9,7 @@ import StopButton from "./buttons/StopButton.js";
 import SingleStepButton from "./buttons/SingleStepButton";
 import SizeSlider from "./sliders/SizeSlider"
 import SpeedSlider from "./sliders/SpeedSlider"
+import Presets from './Presets.js'
 
 export default function Controls({
   gen,
@@ -22,7 +23,6 @@ export default function Controls({
   let colsLen = gridSize;
   const [intervalState, setIntervalState] = useState(500);
   const [isRunning, setisRunning] = useState(false);
-  const [isPreset, setisPreset] = useState("clear");
   const [Box, setBox] = useState(null);
 
   useEffect(() => {
@@ -91,7 +91,9 @@ export default function Controls({
     return rando;
   }
 
-  function handleSelectPreset(event) {
+ {
+   /*
+    function handleSelectPreset(event) {
     // setisPreset(event.target.value)
     let chosen = presetCollection.filter(
       (preset) => preset.name == event.target.value
@@ -100,7 +102,7 @@ export default function Controls({
     console.log("line69", event.target.value);
     if (event.target.value == "Gosper Glider Gun" && gridSize < 35) {
       return alert(
-        "Grid must be at least 40cells wide to createa  The Gosper Glider Gun"
+        "Grid must be at least 40cells wide to create The Gosper Glider Gun"
       );
     }
     setPreset(populated2dArray, chosen[0].data);
@@ -303,7 +305,8 @@ export default function Controls({
     },
   ];
   let presetCollectionLen = presetCollection.length;
-
+  */
+}
   /** return both an exact clone of and the original randomly populated, 2dimensional Array  */
   function copyDblArr(arr) {
     let newArr = [...arr.map((r) => [...r])];
@@ -515,6 +518,7 @@ export default function Controls({
           <StopButton stopGame={stopGame}/>
           <ClearButton clearGrid={clearGrid}/>
           <RandomButton randomizeGrid={randomizeGrid} populated2dArray={populated2dArray}/>
+          <Presets populated2dArray={populated2dArray} gridSize={gridSize} colsLen={colsLen} rowsLen={rowsLen}/>
 {/*   
      <button
       style={{
@@ -579,7 +583,9 @@ export default function Controls({
       </button>
       */
      }
-      <section>
+{
+  /*
+        <section>
         <h2>Presets</h2>
         <select onChange={(e) => handleSelectPreset(e)}>
           {
@@ -597,6 +603,8 @@ export default function Controls({
           }
         </select>
       </section>
+        */
+       }
     </>
   );
 }
