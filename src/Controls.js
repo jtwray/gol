@@ -454,6 +454,7 @@ export default function Controls({
             list="lifeCycleSpeedRange"
             id="lifeCyleRangeSpeedSlide"
             onChange={(event) => handleIntervalSlideChange(event)}
+            aria-label="Life cycle range speed slider"
           />
           <datalist
             id="lifeCycleSpeedRange"
@@ -488,6 +489,7 @@ export default function Controls({
             list="gridSizeRange"
             id="gridSizeRangeSlide"
             onChange={(event) => handleGridSizeChange(event)}
+            aria-label="Grid size range slider"
           />
           <datalist
             id="gridSizeRange"
