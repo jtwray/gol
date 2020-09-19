@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Generations from "./Generations.js";
-import Controls from "./Controls";
+import Controls from "./controls/Controls";
 import Grid from "./Grid.js";
 import Row from "./Row.js";
 let tipURL =
