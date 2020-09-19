@@ -12,7 +12,7 @@ export default function SizeSlider({ gridSize,setGridSize}) {
     <>
       <div className="slider" width="300px">
         <form>
-          <label>grid size: {gridSize || "stopped"}</label>
+          <label for="gridSizeRangeSlide">grid size: {gridSize || "stopped"}</label>
           <div
             className="sliderBox"
             style={{
@@ -35,6 +35,7 @@ export default function SizeSlider({ gridSize,setGridSize}) {
             max="175"
             list="gridSizeRange"
             id="gridSizeRangeSlide"
+            name="gridSizeRangeSlide"
             onChange={(event) => handleGridSizeChange(event)}
           />
           <datalist

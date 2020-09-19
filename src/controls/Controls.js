@@ -210,6 +210,7 @@ export default function Controls({
         colsLen={colsLen}
         rowsLen={rowsLen}
       />
+   
     </>
   );
 }
