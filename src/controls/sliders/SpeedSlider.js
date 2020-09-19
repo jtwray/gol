@@ -12,7 +12,7 @@ export default function SpeedSlider({ intervalState, setIntervalState }) {
     <>
       <div className="slider">
         <form>
-          <label for="lifeCycleSpeedSlide">speed:{intervalState || "stopped"}</label>
+          <label for="lifeCycleRangeSpeedSlide"> speed:{intervalState || "stopped"}</label>
           <div
             className="sliderBox"
             style={{
