@@ -1,26 +1,19 @@
 import React from "react";
 
-export default function SizeSlider({ gridSize,setGridSize}) {
+export default function SizeSlider({ gridSize, setGridSize }) {
+  function handleGridSizeChange(event) {
+    setGridSize(event.target.value);
+  }
 
-    function handleGridSizeChange(event) {
-        setGridSize(event.target.value);
-      }
-    
-
-      let gridSizeDL = [25, 50, 75, 100, 125, 150, 175];
+  let gridSizeDL = [25, 50, 75, 100, 125, 150, 175];
   return (
     <>
       <div className="slider" width="300px">
         <form>
-          <label for="gridSizeRangeSlide">grid size: {gridSize || "stopped"}</label>
-          <div
-            className="sliderBox"
-            style={{
-              display: "inline",
-              writingMode: "vertical-lr",
-              maxWidth: "100%",
-            }}
-          >
+          <label for="gridSizeRangeSlide">
+            grid size: {gridSize || "stopped"}
+          </label>
+          <div className="sliderOptions">
             {gridSizeDL.map((option, i) => (
               <option key={`${option}_${i}`} value={option}>
                 {option}
