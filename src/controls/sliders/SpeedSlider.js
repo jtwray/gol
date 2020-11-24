@@ -1,38 +1,41 @@
 import React from "react";
 
 export default function SpeedSlider({ intervalState, setIntervalState }) {
-
   function handleIntervalSlideChange(event) {
     setIntervalState(event.target.value);
     console.log({ intervalState });
   }
-  
-  let dl = [250, 500, 750, 1000, 1250, 1500, 1750, 2000];
+  let min,
+    stepSize = 0.25;
+  let dl = ["1/4", "1/2", 0.75, "1.0", 1.25, 1.5, 1.75, 2.0];
+  let the_real_dl = [1, 2, 3, 4, 5, 6, 7, 8];
+
   return (
     <>
-      <div className="slider">
+      <div width="100px" className="slider">
         <form>
-          <label for="lifeCycleRangeSpeedSlide"> speed:{intervalState || "stopped"}</label>
-          <div
-            className="sliderBox"
-            style={{
-              display: "inline",
-              writingMode: "vertical-lr",
-              maxWidth: "100%",
-            }}
-          >
+          <label for="lifeCycleRangeSpeedSlide">
+            {" "}
+            speed: {intervalState || "stopped"}x
+          </label>
+          <div className="sliderOptions">
             {dl.map((option, i) => (
-              <option key={`${option}_${i}`} value={option}>
+              <option
+                width="10px"
+                height="10px"
+                key={`${option}_${i}`}
+                value={option}
+              >
                 {option}
               </option>
             ))}
           </div>
           <input
             type="range"
-            step="250"
-            value={intervalState || 500}
-            min="250"
-            max="2000"
+            step={stepSize}
+            value={intervalState || 1.0}
+            min={stepSize}
+            max="2.0"
             list="lifeCycleSpeedRange"
             id="lifeCyleRangeSpeedSlide"
             name="lifeCyleRangeSpeedSlide"
