@@ -27,15 +27,21 @@ export default function App() {
     ]);
   }
 
+  let header = {
+    display: "flex",
+    color: "red"
+  };
+
   return (
     <>
-      <h1>The Game of Life</h1>
-      <nav>
-        <Link to="/">LIFE</Link>
-        <Link to="/rules">RULES</Link>
-        <Link to="/about">ABOUT</Link>
-      </nav>
-
+      <div style={header} className="header">
+        <h1>The Game of Life</h1>
+        <nav>
+          <Link to="/">LIFE</Link>
+          <Link to="/rules">RULES</Link>
+          <Link to="/about">ABOUT</Link>
+        </nav>
+      </div>
       <Route exact path="/">
         <Grid
           updateBox={updateBox}
