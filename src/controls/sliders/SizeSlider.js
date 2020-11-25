@@ -5,7 +5,7 @@ export default function SizeSlider({ gridSize, setGridSize }) {
     setGridSize(event.target.value);
   }
 
-  let gridSizeDL = [25, 50, 75, 100, 125, 150, 175];
+  let gridSizeDL = [10, 20, 30, 40, 50];
   return (
     <>
       <div className="slider" width="300px">
@@ -22,10 +22,10 @@ export default function SizeSlider({ gridSize, setGridSize }) {
           </div>
           <input
             type="range"
-            step="25"
-            value={gridSize || 25}
-            min="25"
-            max="175"
+            step="10"
+            value={gridSize || 10}
+            min="10"
+            max="50"
             list="gridSizeRange"
             id="gridSizeRangeSlide"
             name="gridSizeRangeSlide"
