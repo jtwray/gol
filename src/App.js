@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Route, Link } from "react-router-dom";
 import Rules from "./Rules";
 import About from "./About";
-import Generations from "./Generations.js";
 import Controls from "./controls/Controls";
 import Grid from "./Grid.js";
-import Row from "./Row.js";
 
 export default function App() {
   const [gen, setGen] = useState(0);
