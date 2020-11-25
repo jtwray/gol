@@ -72,13 +72,6 @@ section {
   color: yellow;
 }
 
-* {
-  box-sizing: border-box;
-  width: 100%;
-  text-align: center;
-  margin: 0 auto;
-}
-
 form {
   background: gold;
   border: solid darkgrey 1px;
