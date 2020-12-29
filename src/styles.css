@@ -5,6 +5,19 @@
   margin: 0 auto;
 }
 
+body {
+  width: 100vw;
+  height: 100vh;
+  padding: 1rem;
+  background: repeating-radial-gradient(
+    5% 192%,
+    yellow 50px,
+    black 100px,
+    grey 190px
+  );
+  border: black solid 2rem;
+}
+
 #root {
   /* display:inline-block; */
   background: white;
