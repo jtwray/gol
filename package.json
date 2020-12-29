@@ -2,10 +2,7 @@
   "name": "react",
   "version": "1.0.0",
   "description": "React example starter project",
-  "keywords": [
-    "react",
-    "starter"
-  ],
+  "keywords": ["react", "starter"],
   "main": "src/index.js",
   "dependencies": {
     "gitignore": "^0.6.0",
@@ -17,16 +14,13 @@
   "devDependencies": {
     "typescript": "3.8.3"
   },
+
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "build": "rm -rdf build && react-scripts build && echo '/* /index.html 200' >> build/_redirects",
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
 }
