@@ -44,22 +44,20 @@ export default function App() {
       <Route exact path="/rules" component={Rules} />
       <Route exact path="/about" component={About} />
 
-      <section className="about">
-        <Controls
-          className="section--Controls"
-          updateBox={updateBox}
-          gen={gen}
-          setGen={setGen}
-          gridSize={gridSize}
-          setGridSize={setGridSize}
-          populated2dArray={populated2dArray}
-          setPopulated2dArray={setPopulated2dArray}
-        />
-      </section>
-
-      <section className="section--Grid">
-        <Route exact path="/">
-          {" "}
+      <Route exact path="/">
+        <section className="about">
+          <Controls
+            className="section--Controls"
+            updateBox={updateBox}
+            gen={gen}
+            setGen={setGen}
+            gridSize={gridSize}
+            setGridSize={setGridSize}
+            populated2dArray={populated2dArray}
+            setPopulated2dArray={setPopulated2dArray}
+          />
+        </section>
+        <section className="section--Grid">
           <Grid
             updateBox={updateBox}
             gen={gen}
@@ -69,8 +67,8 @@ export default function App() {
             populated2dArray={populated2dArray}
             setPopulated2dArray={setPopulated2dArray}
           />
-        </Route>
-      </section>
+        </section>
+      </Route>
     </>
   );
 }

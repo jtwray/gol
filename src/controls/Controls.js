@@ -17,7 +17,7 @@ export default function Controls({
   gridSize,
   setGridSize,
   setPopulated2dArray,
-  populated2dArray,
+  populated2dArray
 }) {
   let rowsLen = gridSize;
   let colsLen = gridSize;
@@ -158,13 +158,15 @@ export default function Controls({
       function tick() {
         savedCallback.current();
       }
-      if (isRunning && delay != null) {
-        id = setInterval(tick, delay);
-        return () => {
-          clearInterval(id);
-        };
+      if (delay != null) {
+        if (isRunning) {
+          id = setInterval(tick, delay);
+          return () => {
+            clearInterval(id);
+          };
+        }
       }
-    }, [delay]);
+    }, [isRunning]);
     // return [id]
   }
 
@@ -210,7 +212,6 @@ export default function Controls({
         colsLen={colsLen}
         rowsLen={rowsLen}
       />
-   
     </>
   );
 }
