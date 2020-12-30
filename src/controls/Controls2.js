@@ -60,7 +60,7 @@ export default function Controls({
       if (gridType === "empty") {
         for (let row in rows) {
           for (let col in cols) {
-            newGrid[`${row}_${col}`] = 0;
+            newGrid[`${row}_${col}`] = [(value: 0), (nbrs: [])];
           }
         }
       }
@@ -75,45 +75,38 @@ export default function Controls({
     for (let box in hash) {
       let [row, col] = box.split("_");
       let liveNBRS;
-
-      if (row == 0) {
-        liveNBRS =
-          hash[`${+row}_${+col - 1}`] +
-          hash[`${+row + 1}_${+col - 1}`] +
-          hash[`${+row + 1}_${+col}`] +
-          hash[`${+row}_${+col + 1}`] +
-          hash[`${+row + 1}_${+col + 1}`];
+      let nbrs = [
+        hash[`${+row - 1}_${+col - 1}`],
+        hash[`${+row}_${+col - 1}`],
+        hash[`${+row + 1}_${+col - 1}`],
+        hash[`${+row - 1}_${+col}`],
+        hash[`${+row + 1}_${+col}`],
+        hash[`${+row - 1}_${+col + 1}`],
+        hash[`${+row}_${+col + 1}`],
+        hash[`${+row + 1}_${+col + 1}`]
+      ];
+      if (row == 0 && col == 0) {
+        liveNBRS = nbrs[4] + nbrs[6] + nbrs[7];
+      } else if (row == rowsLen - 1 && col == rowsLen - 1) {
+        liveNBRS = nbrs[0] + nbrs[1] + nbrs[3];
+      } else if (row == 0) {
+        liveNBRS = nbrs[3] + nbrs[4] + nbrs[5] + nbrs[6] + nbrs[7];
       } else if (row == rowsLen - 1) {
-        liveNBRS =
-          hash[`${+row - 1}_${+col - 1}`] +
-          hash[`${+row}_${+col - 1}`] +
-          hash[`${+row - 1}_${+col}`] +
-          hash[`${+row - 1}_${+col + 1}`] +
-          hash[`${+row}_${+col + 1}`];
+        liveNBRS = nbrs[0] + nbrs[1] + nbrs[2] + nbrs[3] + nbrs[4];
       } else if (col == 0) {
-        liveNBRS =
-          hash[`${+row - 1}_${+col}`] +
-          hash[`${+row + 1}_${+col}`] +
-          hash[`${+row - 1}_${+col + 1}`] +
-          hash[`${+row}_${+col + 1}`] +
-          hash[`${+row + 1}_${+col + 1}`];
+        liveNBRS = nbrs[1] + nbrs[2] + nbrs[4] + nbrs[6] + nbrs[7];
       } else if (col == colsLen - 1) {
-        liveNBRS =
-          hash[`${+row - 1}_${+col - 1}`] +
-          hash[`${+row}_${+col - 1}`] +
-          hash[`${+row + 1}_${+col - 1}`] +
-          hash[`${+row - 1}_${+col}`] +
-          hash[`${+row + 1}_${+col}`];
+        liveNBRS = nbrs[0] + nbrs[1] + nbrs[3] + nbrs[5] + nbrs[6];
       } else {
         liveNBRS =
-          hash[`${+row - 1}_${+col - 1}`] +
-          hash[`${+row}_${+col - 1}`] +
-          hash[`${+row + 1}_${+col - 1}`] +
-          hash[`${+row - 1}_${+col}`] +
-          hash[`${+row + 1}_${+col}`] +
-          hash[`${+row - 1}_${+col + 1}`] +
-          hash[`${+row}_${+col + 1}`] +
-          hash[`${+row + 1}_${+col + 1}`];
+          nbrs[0] +
+          nbrs[1] +
+          nbrs[2] +
+          nbrs[3] +
+          nbrs[4] +
+          nbrs[5] +
+          nbrs[6] +
+          nbrs[7];
       }
 
       if (liveNBRS == 3 || (hash[box] == 1 && liveNBRS == 2)) {
