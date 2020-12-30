@@ -7,7 +7,7 @@ export default function SpeedSlider({ intervalState, setIntervalState }) {
   }
   let min,
     stepSize = 0.25;
-  let dl = ["1/4", "1/2", 0.75, "1.0", 1.25, 1.5, 1.75, 2.0];
+  let dl = ["1/4", "1/2", "0.75", "1.0", "1.25", "1.5", "1.75", "2.0"];
   let the_real_dl = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (

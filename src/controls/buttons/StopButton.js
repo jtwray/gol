@@ -4,7 +4,7 @@ export default function StopButton({ setisRunning, setIntervalState }) {
   // this.stopGame===
   function stopGame() {
     setisRunning(false);
-    setIntervalState(null);
+    // setIntervalState(null);
   }
   return (
     <>
@@ -20,7 +20,7 @@ export default function StopButton({ setisRunning, setIntervalState }) {
           borderRadius: "14px",
           textShadow: "-.74px .74px 2.7px darkred,-.77px -.7px .74px white",
           boxShadow:
-            "-.7px 1.7px .7px .1px black, -1.7px 1.7px 1.7px .17px darkred",
+            "-.7px 1.7px .7px .1px black, -1.7px 1.7px 1.7px .17px darkred"
         }}
         onClick={() => stopGame()}
       >

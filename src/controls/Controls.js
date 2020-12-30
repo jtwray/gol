@@ -21,7 +21,7 @@ export default function Controls({
 }) {
   let rowsLen = gridSize;
   let colsLen = gridSize;
-  const [intervalState, setIntervalState] = useState(500);
+  const [intervalState, setIntervalState] = useState(1);
   const [isRunning, setisRunning] = useState(false);
   const [Box, setBox] = useState(null);
 
@@ -149,7 +149,6 @@ export default function Controls({
   /** sideeffects */
 
   function useInterval(callback, delay) {
-    let id;
     const savedCallback = useRef();
     useEffect(() => {
       savedCallback.current = callback;
@@ -158,16 +157,13 @@ export default function Controls({
       function tick() {
         savedCallback.current();
       }
-      if (delay != null) {
-        if (isRunning) {
-          id = setInterval(tick, delay);
-          return () => {
-            clearInterval(id);
-          };
-        }
+      if (isRunning) {
+        id = setInterval(tick, delay);
+        return () => {
+          clearInterval(id);
+        };
       }
-    }, [isRunning]);
-    // return [id]
+    }, [isRunning, delay]);
   }
 
   useInterval(() => updateGrid(), intervalState);
